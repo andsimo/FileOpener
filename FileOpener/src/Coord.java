@@ -23,6 +23,11 @@ public class Coord {
 	}
 	
 	
+	
+	/*
+	 * GETTERS och SETTERS
+	 */
+	
 	public void setLong(double longitude){
 		this.longitude = longitude;
 	}

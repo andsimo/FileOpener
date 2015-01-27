@@ -1,14 +1,9 @@
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Locale;
+
 
 
 public class FileOpener {
@@ -22,13 +17,11 @@ public class FileOpener {
 	
 	public FileOpener(File filePath){
 		sensors = new ArrayList<Coord>();
-		//i = 0;
 		file = filePath;
 		listOfFiles = file.listFiles();
-		
 
-		
 	}
+	
 	
 	/*
 	 * 2015-01-26 Har endast testat med .txt-filer. Behöver testas med .LOG samt bör testas i en map innehållandes en blandning av andra filer och
@@ -36,17 +29,15 @@ public class FileOpener {
 	 */
 	public void OpenFiles(){					
 		for(File file: listOfFiles){
-			
-			
-			
-			if(file.toString().toLowerCase().endsWith(".txt") || file.toString().toLowerCase().endsWith(".log")){
+	
+			if(file.toString().toLowerCase().endsWith(".txt") || file.toString().toLowerCase().endsWith(".log")){	//Filtrerar bort filer som inte slutar på .txt och .log (bör kanske även sortera bort txt-filer?)
 			//System.out.println(file.toString());
 			
 			
 			
 			try {
-				in = new BufferedReader(new FileReader(file));
-				Coord coord = new Coord(file.toString());
+				in = new BufferedReader(new FileReader(file));		
+				Coord coord = new Coord(file.toString());			//Skapar ett Coord-objekt för varje lat/long-par.
 				
 				StringBuilder sb = new StringBuilder();
 				String line = in.readLine();
@@ -56,18 +47,17 @@ public class FileOpener {
 					
 					if(line.contains("Longitude") ){
 						
-						
 						sb.append(line);
 						sb.append(System.lineSeparator());
 						
-						String[] sla = sb.toString().split(":");
+						String[] sla = sb.toString().split(":");		//Filtrerar bort "Longitude set as:" och lagrar som double i Coord-objektet
 						coord.setLong(Double.parseDouble(sla[1]));
 						
-						sb = new StringBuilder();
+						sb = new StringBuilder();			//Måste skapa en ny stringBuilder varje gång eftersom 
 	
 					
 					}
-					else if(line.contains("Latitude") ){
+					else if(line.contains("Latitude") ){		//Kodduplicering? Finns vettig lösning?
 						
 						
 						sb.append(line);
@@ -84,7 +74,11 @@ public class FileOpener {
 					
 				}
 				
-				
+				/*
+				 * Sorterar bort koordinater med longitud och latitud (0, 0)...
+				 * Måste kolla med handledare vad göra med dessa! I dagsläget kastas objektet bort.
+				 * 
+				 */
 				if(coord.getLat() == 0 && coord.getLong() == 0){
 					coord = null;
 				}
@@ -92,7 +86,7 @@ public class FileOpener {
 				sensors.add(coord);
 				}
 			
-			} catch (IOException e) {
+			} catch (IOException e) {									//Skitdålig felhantering... it's something!
 				System.out.println("File " + file + " not found");
 				System.out.println("or something else...");
 				e.printStackTrace();
@@ -109,17 +103,17 @@ public class FileOpener {
 	}
 	
 	
-	public void sendToExcel(){
-		
-		
-		
+	/*
+	 * Kommer i framtiden på något vis skicka till excel!
+	 */
+	public void sendToExcel(){	
 		/*
 		 * Avkommentera ifall utskrivning önskas!
-		 * 
+		 */
 		    for(Coord coord: sensors){
 			System.out.println(coord.getFile());
 			System.out.println("Long: " + coord.getLong() + "\t Lat: " + coord.getLat() + "\n");
-		}*/
+		}//*/
 	}
 	
 	

@@ -11,9 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 
-
-
-
 public class MainOpener extends JFrame{
 
 	private JButton openFiles, browse;		
@@ -69,7 +66,9 @@ public void createGUI(){
 	
 	
 	
-	
+	/*
+	 * Skapar knappar.
+	 */
 	openFiles = new JButton("Open files");
 	browse = new JButton("Browse");
 	
