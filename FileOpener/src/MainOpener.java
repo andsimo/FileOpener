@@ -5,6 +5,7 @@ import java.io.File;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,7 +19,7 @@ public class MainOpener extends JFrame{
 	private JButton openFiles, browse;		
 	private File filePath;
 	private JFileChooser fileChooser;
-	private JLabel label;
+	private JLabel filePathLabel, staticPathLabel;
 	
 	
 	public static void main(String[] args) {
@@ -32,7 +33,8 @@ public class MainOpener extends JFrame{
 	
 	
 public MainOpener(){
-		filePath = null;		
+		filePath = null;
+		
 		createGUI();
 }
 
@@ -49,18 +51,30 @@ public void createGUI(){
 	
 	getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 	
-	label = new JLabel("");			//Label initeras till "". 
+	
+	staticPathLabel = new JLabel("File: ");
+	staticPathLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+	this.add(staticPathLabel);
+	
+	filePathLabel = new JLabel(" ");			//Label initeras till "".
+	filePathLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 	
 	if(filePath != null)			//Men skulle något finnas i filePath så sätts Label till detta.
-		label.setText(filePath.toString());
+		filePathLabel.setText(filePath.toString());
 	
-	this.add(label);
+	
+	this.add(filePathLabel);
+	
+	
+	
 	
 	
 	
 	openFiles = new JButton("Open files");
 	browse = new JButton("Browse");
 	
+	openFiles.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+	browse.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
 	
 	openFiles.addActionListener(new ActionListener(){		//TODO: OPENFILES
@@ -112,21 +126,14 @@ public void createGUI(){
 				
 				
 				if(filePath == null)						 
-					label.setText("");
+					filePathLabel.setText("");
 				else
-					label.setText(filePath.toString());
+					filePathLabel.setText(filePath.toString());
 			}
 			else if(result == JFileChooser.CANCEL_OPTION){	//Om filen "valts" med cancel eller x i hörnet... gör nått vettigt... antar jag...
-				System.out.println("cancel");
+				//System.out.println("cancel");
 			}
-			
-			
-			/*filePath = fileChooser.getSelectedFile();
-			if(filePath == null)						//BUGG: Ifall man trycker avbryt lagras ibland strängen iallafall... [Löst ovan, sparas "ifall att"]
-				label.setText("");
-			else
-				label.setText(filePath.toString());
-			*/
+	
 		}
 	});
 	
