@@ -26,7 +26,7 @@ public class FileOpener {
 	
 	
 	/*
-	 * 2015-01-26 Har endast testat med .txt-filer. Behöver testas med .LOG samt bör testas i en map innehållandes en blandning av andra filer och
+	 * Behöver testas med .LOG samt bör testas i en map innehållandes en blandning av andra filer och
 	 * mappar. Är kontrollen mot .txt tillräcklig? 
 	 */
 	public void OpenFiles(){					
@@ -123,6 +123,7 @@ public class FileOpener {
 		
 		for(Coord coord: sensors){
 			WC.getWeather(coord.getLat(), coord.getLong());
+			
 		}
 	}
 	

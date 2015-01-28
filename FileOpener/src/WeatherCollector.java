@@ -16,12 +16,13 @@ public class WeatherCollector {
 	}
 	
 	/*
-	 * Metod som hï¿½mtar data. Inparametrar latitud och longitud fï¿½r plats av relevans.
+	 * Metod som hämtar data. Inparametrar latitud och longitud fï¿½r plats av relevans.
 	 */
 	public String getWeather(double latitude, double longitude){
 
 		String lat = "lat="+latitude+"&";
 		String lon = "lon="+longitude;
+		String weatherData;
 
 
 		HttpURLConnection con = null ;
@@ -29,7 +30,7 @@ public class WeatherCollector {
 
 
 		try {
-			con = (HttpURLConnection) ( new URL(BASE_URL+lat+lon+API_KEY)).openConnection(); //Syr ihop en strï¿½ng till URL och skapar en connection till servern.
+			con = (HttpURLConnection) ( new URL(BASE_URL+lat+lon+API_KEY)).openConnection(); //Syr ihop en sträng till URL och skapar en connection till servern.
 			con.setRequestMethod("GET");
 			con.setDoInput(true);
 			con.setDoOutput(true);
@@ -40,13 +41,27 @@ public class WeatherCollector {
 			is = con.getInputStream();
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			String line = null;
-			while (  (line = br.readLine()) != null ){ //Lï¿½ser och printar ut resultatet frï¿½n query.
+			while (  (line = br.readLine()) != null ){ //Läser och printar ut resultatet frï¿½n query.
 				buffer.append(line + "\r\n");
-				System.out.println(line);
+				//System.out.println(line);
+				
+				/*if(line.toLowerCase().contains("Sky is Clear")){ //GÖR OM!
+					weatherData = line;
+					System.out.println(weatherData);
+				}*/
+				
+				/*String[] cloudString = line.split(":");
+				System.out.println(cloudString[0]);
+				System.out.println(cloudString[1]);
+				*/
+				
+				
+				
 			}
-			is.close();					//Stï¿½nger ned strï¿½mmen!
+			is.close();					//Stänger ned strömmen!
 			con.disconnect();
 			return buffer.toString();
+			
 		}
 		catch(Throwable t) {
 			t.printStackTrace();
