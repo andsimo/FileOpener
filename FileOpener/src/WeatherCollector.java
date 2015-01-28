@@ -4,11 +4,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
+//Tim test
 public class WeatherCollector {
 
-	private static String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"; //Länk till väderserver: http://openweathermap.org/
-	private static String API_KEY ="&APPID=0ab3b60b021121ca736c3e9fdc584aa2"; //API_Nyckel som tilldelas vid registrering på hemsidan.
+	private static String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"; //Lï¿½nk till vï¿½derserver: http://openweathermap.org/
+	private static String API_KEY ="&APPID=0ab3b60b021121ca736c3e9fdc584aa2"; //API_Nyckel som tilldelas vid registrering pï¿½ hemsidan.
 	
 	
 	public WeatherCollector(){
@@ -16,7 +16,7 @@ public class WeatherCollector {
 	}
 	
 	/*
-	 * Metod som hämtar data. Inparametrar latitud och longitud för plats av relevans.
+	 * Metod som hï¿½mtar data. Inparametrar latitud och longitud fï¿½r plats av relevans.
 	 */
 	public String getWeather(double latitude, double longitude){
 
@@ -29,7 +29,7 @@ public class WeatherCollector {
 
 
 		try {
-			con = (HttpURLConnection) ( new URL(BASE_URL+lat+lon+API_KEY)).openConnection(); //Syr ihop en sträng till URL och skapar en connection till servern.
+			con = (HttpURLConnection) ( new URL(BASE_URL+lat+lon+API_KEY)).openConnection(); //Syr ihop en strï¿½ng till URL och skapar en connection till servern.
 			con.setRequestMethod("GET");
 			con.setDoInput(true);
 			con.setDoOutput(true);
@@ -40,11 +40,11 @@ public class WeatherCollector {
 			is = con.getInputStream();
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			String line = null;
-			while (  (line = br.readLine()) != null ){ //Läser och printar ut resultatet från query.
+			while (  (line = br.readLine()) != null ){ //Lï¿½ser och printar ut resultatet frï¿½n query.
 				buffer.append(line + "\r\n");
 				System.out.println(line);
 			}
-			is.close();					//Stänger ned strömmen!
+			is.close();					//Stï¿½nger ned strï¿½mmen!
 			con.disconnect();
 			return buffer.toString();
 		}
