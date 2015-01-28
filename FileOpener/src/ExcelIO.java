@@ -16,7 +16,7 @@ public class ExcelIO {
 	private static String excelSheetName;
 	private static String fileName;
 
-	public static void main(String[] args) {
+	public static void writeToExcel(){
 		excelSheetName= "Sheet";
 		fileName = "Test1";
 		
