@@ -13,40 +13,25 @@ import org.apache.poi.ss.util.WorkbookUtil;
 
 public class ExcelIO {
 
-	private static  String excelSheetName;
-	private static  String fileName;
-	private static  Map<String, Object[]> data;
+	private static String excelSheetName;
+	private static String fileName;
 
 	public static void main(String[] args) {
-		Map<String, Object[]> test = new TreeMap<String, Object[]>();
-		test.put("1", new Object[] {"Sensor ID", "Longitude", "Latitude", "File"});
-		test.put("2", new Object[] {1, "98,464", "-15,54835", "LA.log"});
-
-		if(test.isEmpty())
-			System.out.println("Empty 1 (data)");
-		else
-			writeToExcel(test);
-	}
-
-	public static  void writeToExcel(Map<String, Object[]> inPutData){
-		if(inPutData.isEmpty())
-			System.out.println("Empty 2 (inPutData)");
-		data.putAll(inPutData);
-		writeToExcel();
-	}
-
-	private static  void writeToExcel(){
 		excelSheetName= "Sheet";
-		fileName = "EmilTestarLite";
-
+		fileName = "Test1";
+		
 		//skapar ett excel ark
 		Workbook workbook = new HSSFWorkbook();
 
 		//Skapar ett blad vid namn "excelSheetName"
 		Sheet sheet = workbook.createSheet(WorkbookUtil.createSafeSheetName((excelSheetName)));
 
-		Set<String> keyset = data.keySet();
+		Map<String, Object[]> data = new TreeMap<String, Object[]>();
+		data.put("1", new Object[] {"Sensor ID", "Longitude", "Latitude", "File"});
+		data.put("2", new Object[] {1, "98,464", "-15,54835", ""});
 
+		Set<String> keyset = data.keySet();
+		
 		//itererar igenom alla objekt i mappen och lägger in dem på varje rad
 		int rownum = 0;
 		for (String key : keyset)
