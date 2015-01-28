@@ -36,7 +36,7 @@ public MainOpener(){
 }
 
 /*
- * Skapar GUI med 1st label som visar senast valda directory samt 2 knappar Browse(browse) och  Open Files(openFiles).
+ * Skapar GUI med 2st labels som visar senast valda directory samt 2 knappar Browse(browse) och  Open Files(openFiles).
  * Browse skapar och öppnar en JFileChooser (Directory Chooser) medan Open Files ropar på metod i FileOpener. 
  */
 public void createGUI(){

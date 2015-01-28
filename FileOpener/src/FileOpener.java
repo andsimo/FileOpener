@@ -12,13 +12,15 @@ public class FileOpener {
 	private BufferedReader in;
 	private File file;
 	private File[] listOfFiles;
-	private ArrayList<Coord> sensors;	
+	private ArrayList<Coord> sensors;
+	private WeatherCollector WC;
 	
 	
 	public FileOpener(File filePath){
 		sensors = new ArrayList<Coord>();
 		file = filePath;
 		listOfFiles = file.listFiles();
+		WC = new WeatherCollector();
 
 	}
 	
@@ -98,8 +100,8 @@ public class FileOpener {
 			
 		}
 		
-		sendToExcel();
-	
+		//sendToExcel();
+		getWeathers();
 	}
 	
 	
@@ -114,6 +116,14 @@ public class FileOpener {
 			System.out.println(coord.getFile());
 			System.out.println("Long: " + coord.getLong() + "\t Lat: " + coord.getLat() + "\n");
 		}//*/
+	}
+	
+	public void getWeathers(){
+		
+		
+		for(Coord coord: sensors){
+			WC.getWeather(coord.getLat(), coord.getLong());
+		}
 	}
 	
 	
