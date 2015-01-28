@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-//Tim test
+
 public class WeatherCollector {
 
 	private static String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"; //L�nk till v�derserver: http://openweathermap.org/
