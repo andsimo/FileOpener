@@ -1,10 +1,13 @@
+import java.util.ArrayList;
+
 
 public class Location {
 
-	private Coord coord;
+	private double latitude, longitude;
 	private int numSensors;
 	private String city;
 	private String country;
+	private ArrayList<String> files;
 	
 	
 	
@@ -12,12 +15,6 @@ public class Location {
 		
 	}
 	
-	public Location(String city, String country, int numSensors, Coord coord){
-		this.coord = coord;
-		this.city = city;
-		this.country = country;
-		this.numSensors = numSensors;
-	}
 	
 	
 	
