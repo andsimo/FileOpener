@@ -10,7 +10,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.WorkbookUtil;
 
-
+//Tim testar
 public class ExcelIO {
 
 	private static String excelSheetName;
@@ -32,13 +32,13 @@ public class ExcelIO {
 
 		Set<String> keyset = data.keySet();
 		
-		//itererar igenom alla objekt i mappen och lägger in dem på varje rad
+		//itererar igenom alla objekt i mappen och lï¿½gger in dem pï¿½ varje rad
 		int rownum = 0;
 		for (String key : keyset)
 		{
 			Row row = sheet.createRow(rownum++);
 			Object [] objArr = data.get(key);
-			//itererar igenom objektets innehåll och lägger de i kolumner
+			//itererar igenom objektets innehï¿½ll och lï¿½gger de i kolumner
 			int cellnum = 0;
 			for (Object obj : objArr)
 			{
