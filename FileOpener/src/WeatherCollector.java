@@ -10,8 +10,10 @@ public class WeatherCollector {
 	private static String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"; //Lï¿½nk till vï¿½derserver: http://openweathermap.org/
 	private static String API_KEY ="&APPID=0ab3b60b021121ca736c3e9fdc584aa2"; //API_Nyckel som tilldelas vid registrering pï¿½ hemsidan.
 	
+	private StaticMapCreator smc;
 	
 	public WeatherCollector(){
+		smc = new StaticMapCreator();
 		
 	}
 	
@@ -22,8 +24,7 @@ public class WeatherCollector {
 
 		String lat = "lat="+latitude+"&";
 		String lon = "lon="+longitude;
-		String weatherData;
-
+		
 
 		HttpURLConnection con = null ;
 		InputStream is = null;
@@ -41,25 +42,19 @@ public class WeatherCollector {
 			is = con.getInputStream();
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			String line = null;
+			
 			while (  (line = br.readLine()) != null ){ //Läser och printar ut resultatet frï¿½n query.
 				buffer.append(line + "\r\n");
-				//System.out.println(line);
-				
-				/*if(line.toLowerCase().contains("Sky is Clear")){ //GÖR OM!
-					weatherData = line;
-					System.out.println(weatherData);
-				}*/
-				
-				/*String[] cloudString = line.split(":");
-				System.out.println(cloudString[0]);
-				System.out.println(cloudString[1]);
-				*/
+				System.out.println(line);
 				
 				
 				
 			}
 			is.close();					//Stänger ned strömmen!
 			con.disconnect();
+			
+			
+			smc.createMap(latitude, longitude); //Avkommentera för att få en statisk bild över området.
 			return buffer.toString();
 			
 		}

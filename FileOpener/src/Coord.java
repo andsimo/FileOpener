@@ -6,14 +6,10 @@ public class Coord {
 
 	private double longitude;
 	private double latitude;
-	private String file;
+
 	
 	public Coord(){}
-	
-	public Coord(String file){
-		super();
-		this.file = file;
-	}
+
 	
 	public Coord(double longitude, double latitude){
 		super();
@@ -35,11 +31,7 @@ public class Coord {
 	public void setLat(double latitude){
 		this.latitude = latitude;
 	}
-	
-	public String getFile(){
-		return file;
-	}
-	
+
 	public double getLong(){
 		return longitude;
 	}

@@ -39,7 +39,7 @@ public class FileOpener {
 			
 			try {
 				in = new BufferedReader(new FileReader(file));		
-				Coord coord = new Coord(file.toString());			//Skapar ett Coord-objekt för varje lat/long-par.
+				Coord coord = new Coord();			//Skapar ett Coord-objekt för varje lat/long-par.
 				
 				StringBuilder sb = new StringBuilder();
 				String line = in.readLine();
@@ -109,13 +109,10 @@ public class FileOpener {
 	 * Kommer i framtiden på något vis skicka till excel!
 	 */
 	public void sendToExcel(){	
-		/*
-		 * Avkommentera ifall utskrivning önskas!
-		 */
-		    for(Coord coord: sensors){
-			System.out.println(coord.getFile());
+		    
+		for(Coord coord: sensors){
 			System.out.println("Long: " + coord.getLong() + "\t Lat: " + coord.getLat() + "\n");
-		}//*/
+		}
 	}
 	
 	public void getWeathers(){
@@ -126,6 +123,7 @@ public class FileOpener {
 			
 		}
 	}
+	
 	
 	
 	
