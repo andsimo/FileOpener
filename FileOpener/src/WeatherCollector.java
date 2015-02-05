@@ -54,7 +54,7 @@ public class WeatherCollector {
 			con.disconnect();
 			
 			
-			smc.createMap(latitude, longitude); //Avkommentera för att få en statisk bild över området.
+			//smc.createMap(latitude, longitude); //Avkommentera för att få en statisk bild över området.
 			return buffer.toString();
 			
 		}

@@ -3,6 +3,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 
 
@@ -12,15 +14,17 @@ public class FileOpener {
 	private BufferedReader in;
 	private File file;
 	private File[] listOfFiles;
-	private ArrayList<Coord> sensors;
+	private HashMap<String, Coord> locations;
 	private WeatherCollector WC;
+	private DBConnector DB;
 	
 	
 	public FileOpener(File filePath){
-		sensors = new ArrayList<Coord>();
+		locations = new HashMap<String, Coord>();
 		file = filePath;
 		listOfFiles = file.listFiles();
 		WC = new WeatherCollector();
+		DB = new DBConnector();
 
 	}
 	
@@ -32,8 +36,7 @@ public class FileOpener {
 	public void OpenFiles(){					
 		for(File file: listOfFiles){
 	
-			if(file.toString().toLowerCase().endsWith(".txt") || file.toString().toLowerCase().endsWith(".log")){	//Filtrerar bort filer som inte slutar på .txt och .log (bör kanske även sortera bort txt-filer?)
-			//System.out.println(file.toString());
+			if(file.toString().toLowerCase().endsWith(".log")){	//Filtrerar bort filer som inte slutar med .log
 			
 			
 			
@@ -85,7 +88,7 @@ public class FileOpener {
 					coord = null;
 				}
 				else{
-				sensors.add(coord);
+				locations.put(file.getName(), coord);
 				}
 			
 			} catch (IOException e) {									//Skitdålig felhantering... it's something!
@@ -101,13 +104,14 @@ public class FileOpener {
 		}
 		
 		//sendToExcel();
-		getWeathers();
+		//getWeathers();
+		sendToDB();
 	}
 	
 	
 	/*
 	 * Kommer i framtiden på något vis skicka till excel!
-	 */
+	 *
 	public void sendToExcel(){	
 		    
 		for(Coord coord: sensors){
@@ -123,6 +127,14 @@ public class FileOpener {
 			
 		}
 	}
+	*/
+	
+	public void sendToDB(){
+		
+		DB.insertToDB(locations);
+		
+	}
+	
 	
 	
 	

@@ -32,6 +32,11 @@ public class MainOpener extends JFrame{
 public MainOpener(){
 		filePath = null;
 		
+		/*DBConnector db = new DBConnector();
+		db.receiveFromDB();
+		db.insertIntoDB("fil1", -12.1212, 123.123032);
+		*/
+		
 		createGUI();
 }
 
@@ -49,7 +54,7 @@ public void createGUI(){
 	getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 	
 	
-	staticPathLabel = new JLabel("File: ");
+	staticPathLabel = new JLabel("Directory: ");
 	staticPathLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 	this.add(staticPathLabel);
 	
