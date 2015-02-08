@@ -108,6 +108,7 @@ public class FileOpener {
 		//sendToExcel();
 		//getWeathers();
 		//sendToDB();
+		//eIO.writeToExcel();
 		sendToExcel();
 	}
 	

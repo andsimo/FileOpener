@@ -70,7 +70,7 @@ public class ExcelIO {
 	
 	public void writeManyToExcel(HashMap<String, Coord> locations){
 		excelSheetName= "Sheet";
-		excelFileName = "Test1";
+		excelFileName = "Test2";
 		
 	
 		
@@ -81,6 +81,7 @@ public class ExcelIO {
 		Sheet sheet = workbook.createSheet(WorkbookUtil.createSafeSheetName((excelSheetName)));
 
 		Map<String, Object[]> data = new TreeMap<String, Object[]>();
+		data.put("1", new Object[] {1, "Longitude", "Latitude", "File"});
 
 
 		int i = 1;
@@ -89,8 +90,8 @@ public class ExcelIO {
 			Double latitude = entry.getValue().getLat();
 			Double longitude = entry.getValue().getLong();
 			
-			data.put(""+i, new Object[] {" ", longitude, latitude, fileName });
-			i++;			
+			data.put(""+i, new Object[] {i, longitude, latitude, fileName});	//Får ej ordning på det här. Kanske Emil kan kolla på? 
+			i++;
 		}
 		
 		Set<String> keyset = data.keySet();
