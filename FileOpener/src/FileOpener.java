@@ -15,16 +15,18 @@ public class FileOpener {
 	private File file;
 	private File[] listOfFiles;
 	private HashMap<String, Coord> locations;
-	private WeatherCollector WC;
-	private DBConnector DB;
+	private WeatherCollector wC;
+	private ExcelIO eIO;
+	private DBConnector dataBase;
 	
 	
 	public FileOpener(File filePath){
 		locations = new HashMap<String, Coord>();
 		file = filePath;
 		listOfFiles = file.listFiles();
-		WC = new WeatherCollector();
-		DB = new DBConnector();
+		wC = new WeatherCollector();
+		dataBase = new DBConnector();
+		eIO = new ExcelIO();
 
 	}
 	
@@ -105,7 +107,8 @@ public class FileOpener {
 		
 		//sendToExcel();
 		//getWeathers();
-		sendToDB();
+		//sendToDB();
+		sendToExcel();
 	}
 	
 	
@@ -129,9 +132,13 @@ public class FileOpener {
 	}
 	*/
 	
+	public void sendToExcel(){
+		eIO.writeManyToExcel(locations);
+	}
+	
 	public void sendToDB(){
 		
-		DB.insertToDB(locations);
+		dataBase.insertToDB(locations);
 		
 	}
 	

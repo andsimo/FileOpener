@@ -4,8 +4,7 @@
  */
 public class Coord {
 
-	private double longitude;
-	private double latitude;
+	private double longitude, latitude;
 
 	
 	public Coord(){}
