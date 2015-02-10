@@ -12,26 +12,26 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.WorkbookUtil;
 
-//Tim testar
 public class ExcelIO {
 
-	private static String excelSheetName;
-	private static String excelFileName;
-	private static Map<String, Coord> data;
-
-	/*public static void main(String[] args) {
-		data = new TreeMap<String, Coord>();
-		TreeMap<String, Coord> tempData = new TreeMap<String, Coord>();
-		tempData.put("1", new Coord(-85.232113,12.123142));
-		writeToExcel(tempData);
+	private String excelSheetName;
+	private String excelFileName;
+	private  Map<String, Coord> data;
+	
+	/*public ExcelIO(String filePath,String fileName){
+		
+		
 	}
-	 */
-	public static void writeToExcel(Map<String, Coord> toWrite){
+	*/
+
+	public  void writeToExcel(Map<String, Coord> toWrite){
 		data = toWrite;
+		System.out.println("Startar utskrift");
 		writeToExcel();
+		System.out.println("Utskrift klar");
 	}
 
-	private static void writeToExcel(){
+	private void writeToExcel(){
 		excelSheetName= "Sheet";
 		excelFileName = "TestFileName";
 
@@ -54,60 +54,33 @@ public class ExcelIO {
 
 		int rownum = 1;
 		for(Entry<String, Coord> entry : data.entrySet()){
+
+			// skapar en ny rad för varje nyckel i hashmappen
+			// Sedan hämtas Nyckeln som är ID för solfångaren
+			// hårdkodat villka cellnummer de skrivs ut på
 			Row row = sheet.createRow(rownum++);
 			String fileName = entry.getKey();
 			Cell cell = row.createCell(0);
 			cell.setCellValue(fileName);
 
+			// Hämtas latitude och den har hårdkodats till cellnummer 1
 			Double latitude = entry.getValue().getLat();
 			Cell cell1 = row.createCell(1);
 			cell1.setCellValue(latitude);
 
+			// Hämtas longitude och den har hårdkodats till cellnummer 2
 			Double longitude = entry.getValue().getLong();
 			Cell cell2 = row.createCell(2);
 			cell2.setCellValue(longitude);
 
-			try {
-				FileOutputStream output = new FileOutputStream(excelFileName+".xls");
-				workbook.write(output);
-				output.close();
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+		}
+		try {
+			FileOutputStream output = new FileOutputStream(excelFileName+".xls");
+			workbook.write(output);
+			output.close();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 
-		/*
-
-		Set<String> keyset = data.keySet();
-
-		//itererar igenom alla objekt i mappen och l�gger in dem p� varje rad
-
-
-
-		//int rownum = 0;
-		for (String key : keyset)
-		{
-			Row row = sheet.createRow(rownum++);
-			Object [] objArr = data.get(key);
-			//itererar igenom objektets inneh�ll och l�gger de i kolumner
-			int cellnum = 0;
-			for (Object obj : objArr)
-			{
-				Cell cell = row.createCell(cellnum++);
-				if(obj instanceof String)
-					cell.setCellValue((String)obj);
-				else if(obj instanceof Integer)
-					cell.setCellValue((Integer)obj);
-			}
-
-			try {
-				FileOutputStream output = new FileOutputStream(excelFileName+".xls");
-				workbook.write(output);
-				output.close();
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
-		 */
 	}
 }
