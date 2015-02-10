@@ -29,9 +29,7 @@ public class ExcelIO {
 
 	public  void writeToExcel(Map<String, Coord> toWrite){
 		data = toWrite;
-		System.out.println("Startar utskrift");
 		writeToExcel();
-		System.out.println("Utskrift klar");
 	}
 
 	private void writeToExcel(){

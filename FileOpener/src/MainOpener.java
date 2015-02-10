@@ -98,9 +98,6 @@ public class MainOpener extends JFrame{
 
 			public void actionPerformed(ActionEvent e){
 				if(filePath != null){							//Om inget directory har valts, gï¿½r nothing
-
-					System.out.println("saveFilePath: " +(saveFilePath != null));
-					System.out.println("saveToExcel: "+ saveToExcel);
 					if(saveFilePath!= null && saveToExcel){
 						FileOpener FO = new FileOpener(filePath,saveFilePath);
 						FO.OpenFiles();
@@ -120,9 +117,28 @@ public class MainOpener extends JFrame{
 		 */
 		browse.addActionListener(new ActionListener(){			
 			public void actionPerformed(ActionEvent e){
+				//Simon kolla om detta är okej
 
+				JFrame parentFrame = new JFrame();
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);	
+				fileChooser.setDialogTitle("Öppna mapp");  
 
-				fileChooser = new JFileChooser();
+				int userSelection = fileChooser.showOpenDialog(parentFrame);
+
+				if (userSelection == JFileChooser.APPROVE_OPTION) {
+					filePath = fileChooser.getSelectedFile();
+				}
+				
+				if(filePath == null)						 
+					filePathLabel.setText("");
+				else
+					filePathLabel.setText(filePath.toString());
+				
+				//Här slutar min kod /Emil
+				
+				
+				//fileChooser = new JFileChooser();
 
 				/*
 				 * Fixa sï¿½ att man kan visa filer ocksï¿½, sï¿½ att det blir enklare att vï¿½lja rï¿½tt directory
@@ -133,13 +149,14 @@ public class MainOpener extends JFrame{
 				}
 				 *	
 				 */
+				/*
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);		
 
 				if(filePath != null){
 					fileChooser.setCurrentDirectory(filePath);
 				}
 
-				//fileChooser.showSaveDialog(null);						//Bï¿½r kollas upp vad denna rad gï¿½r... 
+				//fileChooser.showOpenDialog(null);						//Bï¿½r kollas upp vad denna rad gï¿½r... 
 				fileChooser.setFileHidingEnabled(false);
 
 				int result = fileChooser.showSaveDialog(fileChooser);	//Bugg nedan lï¿½st med att spara resultatet som en int och kolla att filen valts med APPROVE_OPTION
@@ -158,8 +175,8 @@ public class MainOpener extends JFrame{
 				else if(result == JFileChooser.CANCEL_OPTION){	//Om filen "valts" med cancel eller x i hï¿½rnet... gï¿½r nï¿½tt vettigt... antar jag...
 					//System.out.println("cancel");
 				}
-
-			}
+*/
+			} 
 		});
 
 		/*
