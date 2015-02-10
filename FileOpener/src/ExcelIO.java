@@ -17,31 +17,74 @@ public class ExcelIO {
 
 	private static String excelSheetName;
 	private static String excelFileName;
-	
-	private void help(){
-		
+	private static Map<String, Coord> data;
+
+	/*public static void main(String[] args) {
+		data = new TreeMap<String, Coord>();
+		TreeMap<String, Coord> tempData = new TreeMap<String, Coord>();
+		tempData.put("1", new Coord(-85.232113,12.123142));
+		writeToExcel(tempData);
+	}
+	 */
+	public static void writeToExcel(Map<String, Coord> toWrite){
+		data = toWrite;
+		writeToExcel();
 	}
 
-	public static void writeToExcel(){
+	private static void writeToExcel(){
 		excelSheetName= "Sheet";
-		excelFileName = "Test1";
-		
-	
-		
+		excelFileName = "TestFileName";
+
 		//skapar ett excel ark
 		Workbook workbook = new HSSFWorkbook();
 
 		//Skapar ett blad vid namn "excelSheetName"
 		Sheet sheet = workbook.createSheet(WorkbookUtil.createSafeSheetName((excelSheetName)));
 
-		Map<String, Object[]> data = new TreeMap<String, Object[]>();
-		data.put("1", new Object[] {"Sensor ID", "Longitude", "Latitude", "File"});
-		data.put("2", new Object[] {1, "98,464", "-15,54835", ""});
+		Row rowInfo = sheet.createRow(0);
+		Cell cellInfo0 = rowInfo.createCell(0);
+		cellInfo0.setCellValue("ID");
+
+		Cell cellInfo1 = rowInfo.createCell(1);
+		cellInfo1.setCellValue("Latitude");
+
+		Cell cellInfo2 = rowInfo.createCell(2);
+		cellInfo2.setCellValue("Longitude");
+
+
+		int rownum = 1;
+		for(Entry<String, Coord> entry : data.entrySet()){
+			Row row = sheet.createRow(rownum++);
+			String fileName = entry.getKey();
+			Cell cell = row.createCell(0);
+			cell.setCellValue(fileName);
+
+			Double latitude = entry.getValue().getLat();
+			Cell cell1 = row.createCell(1);
+			cell1.setCellValue(latitude);
+
+			Double longitude = entry.getValue().getLong();
+			Cell cell2 = row.createCell(2);
+			cell2.setCellValue(longitude);
+
+			try {
+				FileOutputStream output = new FileOutputStream(excelFileName+".xls");
+				workbook.write(output);
+				output.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		/*
 
 		Set<String> keyset = data.keySet();
-		
+
 		//itererar igenom alla objekt i mappen och lï¿½gger in dem pï¿½ varje rad
-		int rownum = 0;
+
+
+
+		//int rownum = 0;
 		for (String key : keyset)
 		{
 			Row row = sheet.createRow(rownum++);
@@ -65,61 +108,6 @@ public class ExcelIO {
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	
-	public void writeManyToExcel(HashMap<String, Coord> locations){
-		excelSheetName= "Sheet";
-		excelFileName = "Test2";
-		
-	
-		
-		//skapar ett excel ark
-		Workbook workbook = new HSSFWorkbook();
-
-		//Skapar ett blad vid namn "excelSheetName"
-		Sheet sheet = workbook.createSheet(WorkbookUtil.createSafeSheetName((excelSheetName)));
-
-		Map<String, Object[]> data = new TreeMap<String, Object[]>();
-		data.put("1", new Object[] {1, "Longitude", "Latitude", "File"});
-
-
-		int i = 1;
-		for(Entry<String, Coord> entry : locations.entrySet()){
-			String fileName = entry.getKey();
-			Double latitude = entry.getValue().getLat();
-			Double longitude = entry.getValue().getLong();
-			
-			data.put(""+i, new Object[] {i, longitude, latitude, fileName});	//Får ej ordning på det här. Kanske Emil kan kolla på? 
-			i++;
-		}
-		
-		Set<String> keyset = data.keySet();
-		
-		//itererar igenom alla objekt i mappen och lï¿½gger in dem pï¿½ varje rad
-		int rownum = 0;
-		for (String key : keyset)
-		{
-			Row row = sheet.createRow(rownum++);
-			Object [] objArr = data.get(key);
-			//itererar igenom objektets innhåll och lägger de i kolumner
-			int cellnum = 0;
-			for (Object obj : objArr)
-			{
-				Cell cell = row.createCell(cellnum++);
-				if(obj instanceof String)
-					cell.setCellValue((String)obj);
-				else if(obj instanceof Integer)
-					cell.setCellValue((Integer)obj);
-			}
-
-			try {
-				FileOutputStream output = new FileOutputStream(excelFileName+".xls");
-				workbook.write(output);
-				output.close();
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
+		 */
 	}
 }

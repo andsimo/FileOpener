@@ -20,7 +20,7 @@ public class MainOpener extends JFrame{
 	
 	
 	public static void main(String[] args) {
-		new MainOpener();
+		new MainOpener(); 
 		
 		while(true){		
 			
@@ -42,7 +42,7 @@ public MainOpener(){
 
 /*
  * Skapar GUI med 2st labels som visar senast valda directory samt 2 knappar Browse(browse) och  Open Files(openFiles).
- * Browse skapar och öppnar en JFileChooser (Directory Chooser) medan Open Files ropar på metod i FileOpener. 
+ * Browse skapar och ï¿½ppnar en JFileChooser (Directory Chooser) medan Open Files ropar pï¿½ metod i FileOpener. 
  */
 public void createGUI(){
 
@@ -61,7 +61,7 @@ public void createGUI(){
 	filePathLabel = new JLabel(" ");			//Label initeras till "".
 	filePathLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 	
-	if(filePath != null)			//Men skulle något finnas i filePath så sätts Label till detta.
+	if(filePath != null)			//Men skulle nï¿½got finnas i filePath sï¿½ sï¿½tts Label till detta.
 		filePathLabel.setText(filePath.toString());
 	
 	
@@ -84,7 +84,7 @@ public void createGUI(){
 	openFiles.addActionListener(new ActionListener(){		//TODO: OPENFILES
 		
 		public void actionPerformed(ActionEvent e){
-			if(filePath != null){							//Om inget directory har valts, gör nothing
+			if(filePath != null){							//Om inget directory har valts, gï¿½r nothing
 			FileOpener FO = new FileOpener(filePath);
 			FO.OpenFiles();
 			}
@@ -94,7 +94,7 @@ public void createGUI(){
 	//******************************************************//
 	
 	/*
-	 * ActionListener för browse. Skapar en fileChooser och lagrar det valda directoriet
+	 * ActionListener fï¿½r browse. Skapar en fileChooser och lagrar det valda directoriet
 	 * i filePath, samt uppdaterar dennes Label.
 	 */
 	browse.addActionListener(new ActionListener(){			
@@ -104,8 +104,8 @@ public void createGUI(){
 			fileChooser = new JFileChooser();
 			
 			/*
-			 * Fixa så att man kan visa filer också, så att det blir enklare att välja rätt directory
-			 * JFileChooser.Files_AND_DIRECTORIES... leder dock till en bugg där fältet är tomt.
+			 * Fixa sï¿½ att man kan visa filer ocksï¿½, sï¿½ att det blir enklare att vï¿½lja rï¿½tt directory
+			 * JFileChooser.Files_AND_DIRECTORIES... leder dock till en bugg dï¿½r fï¿½ltet ï¿½r tomt.
 			 * 
 			 * if(!filePath.isDirectory() || filePath == null){			
 					filePath = filePath.getParentFile();
@@ -118,10 +118,10 @@ public void createGUI(){
 				fileChooser.setCurrentDirectory(filePath);
 			}
 			
-			//fileChooser.showSaveDialog(null);						//Bör kollas upp vad denna rad gör... 
+			//fileChooser.showSaveDialog(null);						//Bï¿½r kollas upp vad denna rad gï¿½r... 
 			fileChooser.setFileHidingEnabled(false);
 				
-			int result = fileChooser.showSaveDialog(fileChooser);	//Bugg nedan löst med att spara resultatet som en int och kolla att filen valts med APPROVE_OPTION
+			int result = fileChooser.showSaveDialog(fileChooser);	//Bugg nedan lï¿½st med att spara resultatet som en int och kolla att filen valts med APPROVE_OPTION
 			//System.out.println(result);
 			
 			if(result == JFileChooser.APPROVE_OPTION){
@@ -134,7 +134,7 @@ public void createGUI(){
 				else
 					filePathLabel.setText(filePath.toString());
 			}
-			else if(result == JFileChooser.CANCEL_OPTION){	//Om filen "valts" med cancel eller x i hörnet... gör nått vettigt... antar jag...
+			else if(result == JFileChooser.CANCEL_OPTION){	//Om filen "valts" med cancel eller x i hï¿½rnet... gï¿½r nï¿½tt vettigt... antar jag...
 				//System.out.println("cancel");
 			}
 	

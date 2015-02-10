@@ -32,8 +32,8 @@ public class FileOpener {
 	
 	
 	/*
-	 * Behöver testas med .LOG samt bör testas i en map innehållandes en blandning av andra filer och
-	 * mappar. Är kontrollen mot .txt tillräcklig? 
+	 * Behï¿½ver testas med .LOG samt bï¿½r testas i en map innehï¿½llandes en blandning av andra filer och
+	 * mappar. ï¿½r kontrollen mot .txt tillrï¿½cklig? 
 	 */
 	public void OpenFiles(){					
 		for(File file: listOfFiles){
@@ -44,7 +44,7 @@ public class FileOpener {
 			
 			try {
 				in = new BufferedReader(new FileReader(file));		
-				Coord coord = new Coord();			//Skapar ett Coord-objekt för varje lat/long-par.
+				Coord coord = new Coord();			//Skapar ett Coord-objekt fï¿½r varje lat/long-par.
 				
 				StringBuilder sb = new StringBuilder();
 				String line = in.readLine();
@@ -60,11 +60,11 @@ public class FileOpener {
 						String[] sla = sb.toString().split(":");		//Filtrerar bort "Longitude set as:" och lagrar som double i Coord-objektet
 						coord.setLong(Double.parseDouble(sla[1]));
 						
-						sb = new StringBuilder();			//Måste skapa en ny stringBuilder varje gång eftersom 
+						sb = new StringBuilder();			//Mï¿½ste skapa en ny stringBuilder varje gï¿½ng eftersom 
 	
 					
 					}
-					else if(line.contains("Latitude") ){		//Kodduplicering? Finns vettig lösning?
+					else if(line.contains("Latitude") ){		//Kodduplicering? Finns vettig lï¿½sning?
 						
 						
 						sb.append(line);
@@ -83,7 +83,7 @@ public class FileOpener {
 				
 				/*
 				 * Sorterar bort koordinater med longitud och latitud (0, 0)...
-				 * Måste kolla med handledare vad göra med dessa! I dagsläget kastas objektet bort.
+				 * Mï¿½ste kolla med handledare vad gï¿½ra med dessa! I dagslï¿½get kastas objektet bort.
 				 * 
 				 */
 				if(coord.getLat() == 0 && coord.getLong() == 0){
@@ -93,7 +93,7 @@ public class FileOpener {
 				locations.put(file.getName(), coord);
 				}
 			
-			} catch (IOException e) {									//Skitdålig felhantering... it's something!
+			} catch (IOException e) {									//Skitdï¿½lig felhantering... it's something!
 				System.out.println("File " + file + " not found");
 				System.out.println("or something else...");
 				e.printStackTrace();
@@ -114,7 +114,7 @@ public class FileOpener {
 	
 	
 	/*
-	 * Kommer i framtiden på något vis skicka till excel!
+	 * Kommer i framtiden pï¿½ nï¿½got vis skicka till excel!
 	 *
 	public void sendToExcel(){	
 		    
@@ -134,7 +134,7 @@ public class FileOpener {
 	*/
 	
 	public void sendToExcel(){
-		eIO.writeManyToExcel(locations);
+		eIO.writeToExcel(locations);
 	}
 	
 	public void sendToDB(){
