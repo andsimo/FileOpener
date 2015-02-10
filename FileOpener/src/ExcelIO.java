@@ -83,7 +83,7 @@ public class ExcelIO {
 			workbook.write(output);
 			output.close();
 			JOptionPane.showMessageDialog(null,
-				    "Excel filen är nu klar. \nOch sparad som : " + file.getName()+ ".xls","Success",JOptionPane.PLAIN_MESSAGE);
+				    "Excel filen ï¿½r nu klar. \nOch sparad som : " + file.getName()+ ".xls","Success",JOptionPane.PLAIN_MESSAGE);
 			
 		} catch(Exception e) {
 			e.printStackTrace();

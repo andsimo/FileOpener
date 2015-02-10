@@ -50,7 +50,7 @@ public class MainOpener extends JFrame{
 	 */
 	public void createGUI(){
 
-		//Detta gör jag(Emil) för att det ska se mer ut som windows
+		//Detta gï¿½r jag(Emil) fï¿½r att det ska se mer ut som windows
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {e.printStackTrace();     }
@@ -60,11 +60,11 @@ public class MainOpener extends JFrame{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBackground(Color.WHITE);
 
-		// För att programmet ska öppnas i mitten av skärmen
+		// Fï¿½r att programmet ska ï¿½ppnas i mitten av skï¿½rmen
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 
-		//För att det inte ska gå att ändra storlek på program rutan
+		//Fï¿½r att det inte ska gï¿½ att ï¿½ndra storlek pï¿½ program rutan
 		this.setResizable(false);
 
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
@@ -105,26 +105,34 @@ public class MainOpener extends JFrame{
 
 			public void actionPerformed(ActionEvent e){
 				if(filePath != null){							//Om inget directory har valts, gï¿½r nothing
+					FileOpener FO = new FileOpener(filePath,saveFilePath);
 					if(saveFilePath!= null && saveToExcelBox.isSelected()){
-						FileOpener FO = new FileOpener(filePath,saveFilePath);
-						FO.OpenFiles();
+						FO.sendToExcel();
 						saveFilePath = null;
 					}else{
 						if(saveToExcelBox.isSelected()){
 							JOptionPane.showMessageDialog(null,
-									"Måste välja målmapp och namn på fil för att spara till Excel.",
+									"Mï¿½ste vï¿½lja mï¿½lmapp och namn pï¿½ fil fï¿½r att spara till Excel.",
 									"Inane error",
-									JOptionPane.ERROR_MESSAGE);}
+									JOptionPane.ERROR_MESSAGE);
+						}
+					}
+					if(saveToDBBox.isSelected()){
+						//FO.sendToDB();
+						
+						JOptionPane.showMessageDialog(null,
+							    "Datan har nu skickat till databasen","Success",JOptionPane.PLAIN_MESSAGE);
+						
 					}
 					if (!saveToExcelBox.isSelected() && !saveToDBBox.isSelected()){
 						JOptionPane.showMessageDialog(null,
-								"Måste välja att spara till Excel eller Databasen.",
+								"Mï¿½ste vï¿½lja att spara till Excel eller Databasen.",
 								"Inane error",
 								JOptionPane.ERROR_MESSAGE);
 					}
 				}else if (filePath == null) {
 					JOptionPane.showMessageDialog(null,
-							"Måste välja en mapp med loggfiler först.",
+							"Mï¿½ste vï¿½lja en mapp med loggfiler fï¿½rst.",
 							"Inane error",
 							JOptionPane.ERROR_MESSAGE);
 				}
@@ -140,11 +148,11 @@ public class MainOpener extends JFrame{
 			public void actionPerformed(ActionEvent e){
 
 
-				// skapar en Dialog ruta för att välja en mapp där logfilerna ligger
+				// skapar en Dialog ruta fï¿½r att vï¿½lja en mapp dï¿½r logfilerna ligger
 				JFrame parentFrame = new JFrame();
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);	
-				fileChooser.setDialogTitle("Öppna mapp");  
+				fileChooser.setDialogTitle("ï¿½ppna mapp");  
 
 				int userSelection = fileChooser.showOpenDialog(parentFrame);
 
@@ -160,7 +168,7 @@ public class MainOpener extends JFrame{
 			} 
 		});
 		/*
-		 * lyssnare för att aktivera spara till Excel, om ej aktiv ska den inte spara till excel fil
+		 * lyssnare fï¿½r att aktivera spara till Excel, om ej aktiv ska den inte spara till excel fil
 		 */
 		saveToExcelBox.addActionListener(new ActionListener(){
 			@Override
