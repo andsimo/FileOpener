@@ -18,11 +18,11 @@ import javax.swing.UIManager;
 
 public class MainOpener extends JFrame{
 
-	private JButton openFiles, browse,saveTo;		
+	private JButton openFiles, browse,saveToExcel, saveToDB;		
 	private File filePath,saveFilePath;
 	private JLabel filePathLabel, staticPathLabel;
-	private JCheckBox saveToExcelBox;
-	private boolean saveToExcel = false;
+	private JCheckBox saveToExcelBox, saveToDBBox;
+	private boolean saveToExcelBoolean = false, saveToDBBoolean = false;
 
 	public static void main(String[] args) {
 		new MainOpener(); 
@@ -89,20 +89,29 @@ public class MainOpener extends JFrame{
 		 */
 		openFiles = new JButton("Open files");
 		browse = new JButton("Browse");
-		saveToExcelBox = new JCheckBox("Save To Excel");
-		saveTo = new JButton("Save to");
+		saveToExcelBox = new JCheckBox("Save to excel");
+		saveToExcel = new JButton("Save to (excel)");
+		
+		saveToDBBox = new JCheckBox("Save to database");
+		saveToDB = new JButton("Save to (database)");
 
 		openFiles.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		browse.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		saveToExcelBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-		saveTo.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-		saveTo.setEnabled(false);
+		saveToExcel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		saveToExcel.setEnabled(false);
+		
+		saveToDBBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		saveToDB.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		saveToDB.setEnabled(false);
+		
+		
 
 		openFiles.addActionListener(new ActionListener(){		//TODO: OPENFILES
 
 			public void actionPerformed(ActionEvent e){
 				if(filePath != null){							//Om inget directory har valts, g�r nothing
-					if(saveFilePath!= null && saveToExcel){
+					if(saveFilePath!= null && saveToExcelBoolean){
 						FileOpener FO = new FileOpener(filePath,saveFilePath);
 						FO.OpenFiles();
 					}else{
@@ -157,13 +166,13 @@ public class MainOpener extends JFrame{
 		saveToExcelBox.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				saveToExcel = !saveToExcel;
-				saveTo.setEnabled(saveToExcel);
+				saveToExcelBoolean = !saveToExcelBoolean;
+				saveToExcel.setEnabled(saveToExcelBoolean);
 			}
 
 		});
 
-		saveTo.addActionListener(new ActionListener(){
+		saveToExcel.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame parentFrame = new JFrame();
@@ -178,11 +187,22 @@ public class MainOpener extends JFrame{
 				}
 			}
 		});
+		
+		saveToDBBox.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				saveToDBBoolean = !saveToDBBoolean;
+				saveToDB.setEnabled(saveToDBBoolean);
+			}
+
+		});
 
 		this.add(browse);
 		this.add(openFiles);
 		this.add(saveToExcelBox);
-		this.add(saveTo);
+		this.add(saveToExcel);
+		this.add(saveToDBBox);
+		this.add(saveToDB);
 
 		this.setVisible(true);
 	}
