@@ -12,7 +12,7 @@ public class FileOpener {
 	
 
 	private BufferedReader in;
-	private File file;
+	private File file,saveFile;
 	private File[] listOfFiles;
 	private HashMap<String, Coord> locations;
 	private WeatherCollector wC;
@@ -27,10 +27,20 @@ public class FileOpener {
 		wC = new WeatherCollector();
 		dataBase = new DBConnector();
 		eIO = new ExcelIO();
-
 	}
 	
 	
+	public FileOpener(File filePath, File saveFilePath) {
+		System.out.println("FileOpener");
+		locations = new HashMap<String, Coord>();
+		file = filePath;
+		listOfFiles = file.listFiles();
+		wC = new WeatherCollector();
+		dataBase = new DBConnector();
+		eIO = new ExcelIO(saveFilePath);
+	}
+
+
 	/*
 	 * Beh�ver testas med .LOG samt b�r testas i en map inneh�llandes en blandning av andra filer och
 	 * mappar. �r kontrollen mot .txt tillr�cklig? 

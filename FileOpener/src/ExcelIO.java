@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,12 +18,14 @@ public class ExcelIO {
 	private String excelSheetName;
 	private String excelFileName;
 	private  Map<String, Coord> data;
-	
-	/*public ExcelIO(String filePath,String fileName){
-		
-		
+	private File file;
+
+
+	public ExcelIO(File saveFilePath) {
+		file = saveFilePath;
 	}
-	*/
+	public ExcelIO() {
+	}
 
 	public  void writeToExcel(Map<String, Coord> toWrite){
 		data = toWrite;
@@ -32,7 +35,7 @@ public class ExcelIO {
 	}
 
 	private void writeToExcel(){
-		excelSheetName= "Sheet";
+		excelSheetName= "Locations";
 		excelFileName = "TestFileName";
 
 		//skapar ett excel ark
@@ -75,7 +78,9 @@ public class ExcelIO {
 
 		}
 		try {
-			FileOutputStream output = new FileOutputStream(excelFileName+".xls");
+			//FileOutputStream output = new FileOutputStream(excelFileName+".xls");
+			System.out.println(""+file.toString());
+			FileOutputStream output = new FileOutputStream(file + ".xls");
 			workbook.write(output);
 			output.close();
 		} catch(Exception e) {
