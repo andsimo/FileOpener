@@ -1,4 +1,6 @@
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -10,7 +12,7 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.LookAndFeel;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 
@@ -18,7 +20,6 @@ public class MainOpener extends JFrame{
 
 	private JButton openFiles, browse,saveTo;		
 	private File filePath,saveFilePath;
-	private JFileChooser fileChooser;
 	private JLabel filePathLabel, staticPathLabel;
 	private JCheckBox saveToExcelBox;
 	private boolean saveToExcel = false;
@@ -49,16 +50,23 @@ public class MainOpener extends JFrame{
 	 * Browse skapar och ï¿½ppnar en JFileChooser (Directory Chooser) medan Open Files ropar pï¿½ metod i FileOpener. 
 	 */
 	public void createGUI(){
-		
+
 		//Detta gör jag(Emil) för att det ska se mer ut som windows
 		try {
-	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	    } catch (Exception e) {e.printStackTrace();     }
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {e.printStackTrace();     }
 
 		this.setTitle("FileOpener");
 		this.setSize(300, 200);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBackground(Color.WHITE);
+		
+		// För att programmet ska öppnas i mitten av skärmen
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+		
+		//För att det inte ska gå att ändra storlek på program rutan
+		this.setResizable(false);
 
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
@@ -76,17 +84,13 @@ public class MainOpener extends JFrame{
 
 		this.add(filePathLabel);
 
-
-
-
-
 		/*
 		 * Skapar knappar.
 		 */
 		openFiles = new JButton("Open files");
 		browse = new JButton("Browse");
 		saveToExcelBox = new JCheckBox("Save To Excel");
-		saveTo = new JButton("Save To");
+		saveTo = new JButton("Save to");
 
 		openFiles.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		browse.setAlignmentX(JComponent.CENTER_ALIGNMENT);
@@ -102,10 +106,18 @@ public class MainOpener extends JFrame{
 						FileOpener FO = new FileOpener(filePath,saveFilePath);
 						FO.OpenFiles();
 					}else{
-						FileOpener FO = new FileOpener(filePath);
-						FO.OpenFiles();
+						JOptionPane.showMessageDialog(null,
+							    "Måste välja målmapp och namn på fil.",
+							    "Inane error",
+							    JOptionPane.ERROR_MESSAGE);
 					}
+				}else{
+					JOptionPane.showMessageDialog(null,
+						    "Måste välja en mapp med loggfiler först.",
+						    "Inane error",
+						    JOptionPane.ERROR_MESSAGE);
 				}
+
 			}
 		});
 
@@ -117,8 +129,9 @@ public class MainOpener extends JFrame{
 		 */
 		browse.addActionListener(new ActionListener(){			
 			public void actionPerformed(ActionEvent e){
-				//Simon kolla om detta är okej
 
+
+				// skapar en Dialog ruta för att välja en mapp där logfilerna ligger
 				JFrame parentFrame = new JFrame();
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);	
@@ -129,53 +142,12 @@ public class MainOpener extends JFrame{
 				if (userSelection == JFileChooser.APPROVE_OPTION) {
 					filePath = fileChooser.getSelectedFile();
 				}
-				
-				if(filePath == null)						 
-					filePathLabel.setText("");
-				else
+				if(filePath == null){						 
+					filePathLabel.setText(" ");
+				}
+				else{
 					filePathLabel.setText(filePath.toString());
-				
-				//Här slutar min kod /Emil
-				
-				
-				//fileChooser = new JFileChooser();
-
-				/*
-				 * Fixa sï¿½ att man kan visa filer ocksï¿½, sï¿½ att det blir enklare att vï¿½lja rï¿½tt directory
-				 * JFileChooser.Files_AND_DIRECTORIES... leder dock till en bugg dï¿½r fï¿½ltet ï¿½r tomt.
-				 * 
-				 * if(!filePath.isDirectory() || filePath == null){			
-					filePath = filePath.getParentFile();
 				}
-				 *	
-				 */
-				/*
-				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);		
-
-				if(filePath != null){
-					fileChooser.setCurrentDirectory(filePath);
-				}
-
-				//fileChooser.showOpenDialog(null);						//Bï¿½r kollas upp vad denna rad gï¿½r... 
-				fileChooser.setFileHidingEnabled(false);
-
-				int result = fileChooser.showSaveDialog(fileChooser);	//Bugg nedan lï¿½st med att spara resultatet som en int och kolla att filen valts med APPROVE_OPTION
-				//System.out.println(result);
-
-				if(result == JFileChooser.APPROVE_OPTION){
-					filePath = fileChooser.getSelectedFile();
-
-
-
-					if(filePath == null)						 
-						filePathLabel.setText("");
-					else
-						filePathLabel.setText(filePath.toString());
-				}
-				else if(result == JFileChooser.CANCEL_OPTION){	//Om filen "valts" med cancel eller x i hï¿½rnet... gï¿½r nï¿½tt vettigt... antar jag...
-					//System.out.println("cancel");
-				}
-*/
 			} 
 		});
 
@@ -202,7 +174,7 @@ public class MainOpener extends JFrame{
 
 				if (userSelection == JFileChooser.APPROVE_OPTION) {
 					saveFilePath = fileChooser.getSelectedFile();
-					System.out.println("Save as file: " + saveFilePath.getAbsolutePath());
+					//System.out.println("Save as file: " + saveFilePath.getAbsolutePath());
 				}
 			}
 		});

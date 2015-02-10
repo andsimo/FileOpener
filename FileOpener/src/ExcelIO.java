@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import javax.swing.JOptionPane;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -76,11 +78,13 @@ public class ExcelIO {
 
 		}
 		try {
-			//FileOutputStream output = new FileOutputStream(excelFileName+".xls");
-			System.out.println(""+file.toString());
+			//System.out.println(""+file.toString());
 			FileOutputStream output = new FileOutputStream(file + ".xls");
 			workbook.write(output);
 			output.close();
+			JOptionPane.showMessageDialog(null,
+				    "Excel filen är nu klar. \nOch sparad som : " + file.getName()+ ".xls","Success",JOptionPane.PLAIN_MESSAGE);
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -119,7 +119,7 @@ public class FileOpener {
 		//getWeathers();
 		//sendToDB();
 		//eIO.writeToExcel();
-		//sendToExcel();
+		sendToExcel();
 	}
 	
 	
