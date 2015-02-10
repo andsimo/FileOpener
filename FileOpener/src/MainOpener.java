@@ -18,11 +18,10 @@ import javax.swing.UIManager;
 
 public class MainOpener extends JFrame{
 
-	private JButton openFiles, browse,saveToExcel, saveToDB;		
+	private JButton openFiles, browse,saveToExcel;		
 	private File filePath,saveFilePath;
 	private JLabel filePathLabel, staticPathLabel;
 	private JCheckBox saveToExcelBox, saveToDBBox;
-	private boolean saveToExcelBoolean = false, saveToDBBoolean = false;
 
 	public static void main(String[] args) {
 		new MainOpener(); 
@@ -60,11 +59,11 @@ public class MainOpener extends JFrame{
 		this.setSize(300, 200);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBackground(Color.WHITE);
-		
+
 		// För att programmet ska öppnas i mitten av skärmen
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-		
+
 		//För att det inte ska gå att ändra storlek på program rutan
 		this.setResizable(false);
 
@@ -91,47 +90,48 @@ public class MainOpener extends JFrame{
 		browse = new JButton("Browse");
 		saveToExcelBox = new JCheckBox("Save to excel");
 		saveToExcel = new JButton("Save to (excel)");
-		
+
 		saveToDBBox = new JCheckBox("Save to database");
-		saveToDB = new JButton("Save to (database)");
 
 		openFiles.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		browse.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		saveToExcelBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		saveToExcel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		saveToExcel.setEnabled(false);
-		
+
 		saveToDBBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-		saveToDB.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-		saveToDB.setEnabled(false);
-		
-		
 
 		openFiles.addActionListener(new ActionListener(){		//TODO: OPENFILES
 
 			public void actionPerformed(ActionEvent e){
 				if(filePath != null){							//Om inget directory har valts, gï¿½r nothing
-					if(saveFilePath!= null && saveToExcelBoolean){
+					if(saveFilePath!= null && saveToExcelBox.isSelected()){
 						FileOpener FO = new FileOpener(filePath,saveFilePath);
 						FO.OpenFiles();
+						saveFilePath = null;
 					}else{
-						JOptionPane.showMessageDialog(null,
-							    "Måste välja målmapp och namn på fil.",
-							    "Inane error",
-							    JOptionPane.ERROR_MESSAGE);
+						if(saveToExcelBox.isSelected()){
+							JOptionPane.showMessageDialog(null,
+									"Måste välja målmapp och namn på fil för att spara till Excel.",
+									"Inane error",
+									JOptionPane.ERROR_MESSAGE);}
 					}
-				}else{
+					if (!saveToExcelBox.isSelected() && !saveToDBBox.isSelected()){
+						JOptionPane.showMessageDialog(null,
+								"Måste välja att spara till Excel eller Databasen.",
+								"Inane error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}else if (filePath == null) {
 					JOptionPane.showMessageDialog(null,
-						    "Måste välja en mapp med loggfiler först.",
-						    "Inane error",
-						    JOptionPane.ERROR_MESSAGE);
+							"Måste välja en mapp med loggfiler först.",
+							"Inane error",
+							JOptionPane.ERROR_MESSAGE);
 				}
-
 			}
 		});
 
 		//******************************************************//
-
 		/*
 		 * ActionListener fï¿½r browse. Skapar en fileChooser och lagrar det valda directoriet
 		 * i filePath, samt uppdaterar dennes Label.
@@ -159,19 +159,15 @@ public class MainOpener extends JFrame{
 				}
 			} 
 		});
-
 		/*
 		 * lyssnare för att aktivera spara till Excel, om ej aktiv ska den inte spara till excel fil
 		 */
 		saveToExcelBox.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				saveToExcelBoolean = !saveToExcelBoolean;
-				saveToExcel.setEnabled(saveToExcelBoolean);
+				saveToExcel.setEnabled(saveToExcelBox.isSelected());
 			}
-
 		});
-
 		saveToExcel.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -187,23 +183,11 @@ public class MainOpener extends JFrame{
 				}
 			}
 		});
-		
-		saveToDBBox.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				saveToDBBoolean = !saveToDBBoolean;
-				saveToDB.setEnabled(saveToDBBoolean);
-			}
-
-		});
-
 		this.add(browse);
 		this.add(openFiles);
 		this.add(saveToExcelBox);
 		this.add(saveToExcel);
 		this.add(saveToDBBox);
-		this.add(saveToDB);
-
 		this.setVisible(true);
 	}
 }

@@ -31,7 +31,7 @@ public class FileOpener {
 	
 	
 	public FileOpener(File filePath, File saveFilePath) {
-		System.out.println("FileOpener");
+		//System.out.println("FileOpener");
 		locations = new HashMap<String, Coord>();
 		file = filePath;
 		listOfFiles = file.listFiles();
