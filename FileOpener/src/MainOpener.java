@@ -112,7 +112,7 @@ public class MainOpener extends JFrame{
 					}else{
 						if(saveToExcelBox.isSelected()){
 							JOptionPane.showMessageDialog(null,
-									"M�ste v�lja m�lmapp och namn p� fil f�r att spara till Excel.",
+									"Must select the destination folder and name of the file to save to Excel.",
 									"Inane error",
 									JOptionPane.ERROR_MESSAGE);
 						}
@@ -121,18 +121,18 @@ public class MainOpener extends JFrame{
 						//FO.sendToDB();
 						
 						JOptionPane.showMessageDialog(null,
-							    "Datan har nu skickat till databasen","Success",JOptionPane.PLAIN_MESSAGE);
+							    "The data has now been sent to the database","Success",JOptionPane.PLAIN_MESSAGE);
 						
 					}
 					if (!saveToExcelBox.isSelected() && !saveToDBBox.isSelected()){
 						JOptionPane.showMessageDialog(null,
-								"M�ste v�lja att spara till Excel eller Databasen.",
+								"Must choose to save to Excel or send to the database.",
 								"Inane error",
 								JOptionPane.ERROR_MESSAGE);
 					}
 				}else if (filePath == null) {
 					JOptionPane.showMessageDialog(null,
-							"M�ste v�lja en mapp med loggfiler f�rst.",
+							"Must select a folder with log files.",
 							"Inane error",
 							JOptionPane.ERROR_MESSAGE);
 				}
@@ -152,7 +152,7 @@ public class MainOpener extends JFrame{
 				JFrame parentFrame = new JFrame();
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);	
-				fileChooser.setDialogTitle("�ppna mapp");  
+				fileChooser.setDialogTitle("Open folder");  
 
 				int userSelection = fileChooser.showOpenDialog(parentFrame);
 
@@ -181,7 +181,7 @@ public class MainOpener extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				JFrame parentFrame = new JFrame();
 				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.setDialogTitle("Spara fil som");  
+				fileChooser.setDialogTitle("Save file");  
 
 				int userSelection = fileChooser.showSaveDialog(parentFrame);
 
