@@ -53,6 +53,12 @@ public class ExcelIO {
 
 		Cell cellInfo2 = rowInfo.createCell(2);
 		cellInfo2.setCellValue("Longitude");
+		
+		Cell cellInfo3 = rowInfo.createCell(3);
+		cellInfo3.setCellValue("Installationsdatum");
+		
+		Cell cellInfo4 = rowInfo.createCell(4);
+		cellInfo4.setCellValue("Soltimmar");
 
 
 		int rownum = 1;
@@ -75,6 +81,13 @@ public class ExcelIO {
 			Double longitude = entry.getValue().getLong();
 			Cell cell2 = row.createCell(2);
 			cell2.setCellValue(longitude);
+			
+			
+			Cell cell3 = row.createCell(3);
+			cell3.setCellValue("N/A");
+			
+			Cell cell4 = row.createCell(4);
+			cell4.setCellValue("N/A");
 
 		}
 		try {
@@ -83,7 +96,7 @@ public class ExcelIO {
 			workbook.write(output);
 			output.close();
 			JOptionPane.showMessageDialog(null,
-				    "Excel file is now complete. \nAnd saved as:" + file.getName()+ ".xls","Success",JOptionPane.PLAIN_MESSAGE);
+				    "Excel file is now complete. \nAnd saved as: " + file.getName()+ ".xls","Success",JOptionPane.PLAIN_MESSAGE);
 			
 		} catch(Exception e) {
 			e.printStackTrace();
