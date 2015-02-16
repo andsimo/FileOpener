@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import javax.swing.JOptionPane;
@@ -22,6 +20,7 @@ public class ExcelIO {
 	private String excelSheetName;
 	private  Map<String, SolarReciver> data;
 	private File file;
+	private Workbook workbook;
 
 
 	public ExcelIO(File saveFilePath) {
@@ -39,8 +38,7 @@ public class ExcelIO {
 		excelSheetName= "Locations";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-		//skapar ett excel ark
-		Workbook workbook = new HSSFWorkbook();
+		workbook = new HSSFWorkbook();
 
 		//Skapar ett blad vid namn "excelSheetName"
 		Sheet sheet = workbook.createSheet(WorkbookUtil.createSafeSheetName((excelSheetName)));
