@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -19,7 +21,7 @@ public class ExcelIO {
 
 	private String excelSheetName;
 	private String excelFileName;
-	private  Map<String, Coord> data;
+	private  Map<String, SolarReciver> data;
 	private File file;
 
 
@@ -29,14 +31,15 @@ public class ExcelIO {
 	public ExcelIO() {
 	}
 
-	public  void writeToExcel(Map<String, Coord> toWrite){
-		data = toWrite;
+	public  void writeToExcel(HashMap<String, SolarReciver> locations){
+		data = locations;
 		writeToExcel();
 	}
 
 	private void writeToExcel(){
 		excelSheetName= "Locations";
 		excelFileName = "TestFileName";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		//skapar ett excel ark
 		Workbook workbook = new HSSFWorkbook();
@@ -53,16 +56,16 @@ public class ExcelIO {
 
 		Cell cellInfo2 = rowInfo.createCell(2);
 		cellInfo2.setCellValue("Longitude");
-		
+
 		Cell cellInfo3 = rowInfo.createCell(3);
-		cellInfo3.setCellValue("Installationsdatum");
-		
+		cellInfo3.setCellValue("Produktionsdatum");
+
 		Cell cellInfo4 = rowInfo.createCell(4);
 		cellInfo4.setCellValue("Soltimmar");
 
 
 		int rownum = 1;
-		for(Entry<String, Coord> entry : data.entrySet()){
+		for(Entry<String, SolarReciver> entry : data.entrySet()){
 
 			// skapar en ny rad för varje nyckel i hashmappen
 			// Sedan hämtas Nyckeln som är ID för solfångaren
@@ -82,10 +85,10 @@ public class ExcelIO {
 			Cell cell2 = row.createCell(2);
 			cell2.setCellValue(longitude);
 			
-			
+			Date Produktionsdatum = entry.getValue().getProductionDate();
 			Cell cell3 = row.createCell(3);
-			cell3.setCellValue("N/A");
-			
+			cell3.setCellValue(sdf.format(Produktionsdatum));
+
 			Cell cell4 = row.createCell(4);
 			cell4.setCellValue("N/A");
 
@@ -96,8 +99,8 @@ public class ExcelIO {
 			workbook.write(output);
 			output.close();
 			JOptionPane.showMessageDialog(null,
-				    "Excel file is now complete. \nAnd saved as: " + file.getName()+ ".xls","Success",JOptionPane.PLAIN_MESSAGE);
-			
+					"Excel file is now complete. \nAnd saved as: " + file.getName()+ ".xls","Success",JOptionPane.PLAIN_MESSAGE);
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
