@@ -20,7 +20,6 @@ import org.apache.poi.ss.util.WorkbookUtil;
 public class ExcelIO {
 
 	private String excelSheetName;
-	private String excelFileName;
 	private  Map<String, SolarReciver> data;
 	private File file;
 
@@ -38,7 +37,6 @@ public class ExcelIO {
 
 	private void writeToExcel(){
 		excelSheetName= "Locations";
-		excelFileName = "TestFileName";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 		//skapar ett excel ark
