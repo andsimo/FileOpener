@@ -19,13 +19,13 @@ public class FileOpener {
 	private BufferedReader in;
 	private File file;
 	private File[] listOfFiles;
-	private HashMap<String, SolarReciver> locations;
+	private HashMap<String, SolarReceiver> locations;
 	private WeatherCollector wC;
 	private ExcelIO eIO;
 	private DBConnector dataBase;
 
 	public FileOpener(File filePath, File saveFilePath) {
-		locations = new HashMap<String, SolarReciver>();
+		locations = new HashMap<String, SolarReceiver>();
 		file = filePath;
 		listOfFiles = file.listFiles();
 		wC = new WeatherCollector();
@@ -48,12 +48,12 @@ public class FileOpener {
 
 				try {
 					in = new BufferedReader(new FileReader(file));		
-					SolarReciver solarReciver = new SolarReciver();			//Skapar ett SolarReciver-objekt fï¿½r varje lat/long-par.
+					SolarReceiver solarReceiver = new SolarReceiver();			//Skapar ett SolarReciver-objekt fï¿½r varje lat/long-par.
 					StringBuilder sb = new StringBuilder();
 					String line = in.readLine();
 
 					//Läser in datum från filnamn och sparar i solarReciver
-					solarReciver.setProductionDate(getDate(file.getName()));
+					solarReceiver.setProductionDate(getDate(file.getName()));
 
 					while(line != null){
 
@@ -63,7 +63,7 @@ public class FileOpener {
 							sb.append(System.lineSeparator());
 
 							String[] sla = sb.toString().split(":");		//Filtrerar bort "Longitude set as:" och lagrar som double i SolarReciver-objektet
-							solarReciver.setLong(Double.parseDouble(sla[1]));
+							solarReceiver.setLong(Double.parseDouble(sla[1]));
 
 							sb = new StringBuilder();			//Mï¿½ste skapa en ny stringBuilder varje gï¿½ng eftersom 
 
@@ -76,7 +76,7 @@ public class FileOpener {
 							sb.append(System.lineSeparator());
 
 							String[] sla = sb.toString().split(":");
-							solarReciver.setLat(Double.parseDouble(sla[1]));
+							solarReceiver.setLat(Double.parseDouble(sla[1]));
 
 							sb = new StringBuilder();
 
@@ -91,11 +91,11 @@ public class FileOpener {
 					 * Mï¿½ste kolla med handledare vad gï¿½ra med dessa! I dagslï¿½get kastas objektet bort.
 					 * 
 					 */
-					if(solarReciver.getLat() == 0 && solarReciver.getLong() == 0){
-						solarReciver = null;
+					if(solarReceiver.getLat() == 0 && solarReceiver.getLong() == 0){
+						solarReceiver = null;
 					}
 					else{
-						locations.put(file.getName(), solarReciver);
+						locations.put(file.getName(), solarReceiver);
 					}
 
 				} catch (IOException e) {									//Skitdï¿½lig felhantering... it's something!

@@ -1,16 +1,16 @@
 import java.util.Date;
 
 
-public class SolarReciver {
+public class SolarReceiver {
 
 	private double longitude, latitude;
 	private Date productionDate;
 
 
-	public SolarReciver(){}
+	public SolarReceiver(){}
 
 
-	public SolarReciver(double longitude, double latitude, Date productionDate){
+	public SolarReceiver(double longitude, double latitude, Date productionDate){
 		super();
 		this.longitude = longitude;
 		this.latitude = latitude;

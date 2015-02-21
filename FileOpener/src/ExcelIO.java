@@ -18,7 +18,7 @@ import org.apache.poi.ss.util.WorkbookUtil;
 public class ExcelIO {
 
 	private String excelSheetName;
-	private  Map<String, SolarReciver> data;
+	private  Map<String, SolarReceiver> data;
 	private File file;
 	private Workbook workbook;
 
@@ -29,7 +29,7 @@ public class ExcelIO {
 	public ExcelIO() {
 	}
 
-	public  void writeToExcel(HashMap<String, SolarReciver> locations){
+	public  void writeToExcel(HashMap<String, SolarReceiver> locations){
 		data = locations;
 		writeToExcel();
 	}
@@ -61,7 +61,7 @@ public class ExcelIO {
 
 
 		int rownum = 1;
-		for(Entry<String, SolarReciver> entry : data.entrySet()){
+		for(Entry<String, SolarReceiver> entry : data.entrySet()){
 
 			// skapar en ny rad för varje nyckel i hashmappen
 			// Sedan hämtas Nyckeln som är ID för solfångaren

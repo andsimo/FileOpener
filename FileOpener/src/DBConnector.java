@@ -45,7 +45,7 @@ public class DBConnector {
 	}
 	
 	
-	public void insertToDB(HashMap<String, SolarReciver> locations){
+	public void insertToDB(HashMap<String, SolarReceiver> locations){
 		String fileName = null;
 		int i = 0;
 		
@@ -53,7 +53,7 @@ public class DBConnector {
 			Class.forName(driver).newInstance();
 			Connection conn = DriverManager.getConnection(url+DbName, username, password);
 			
-			for(Entry<String, SolarReciver> entry : locations.entrySet()){
+			for(Entry<String, SolarReceiver> entry : locations.entrySet()){
 				fileName = entry.getKey();
 				Double latitude = entry.getValue().getLat();
 				Double longitude = entry.getValue().getLong();
