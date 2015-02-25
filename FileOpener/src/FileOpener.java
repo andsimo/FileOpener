@@ -156,7 +156,8 @@ public class FileOpener {
 	 */
 
 	public void sendToExcel(){
-		eIO.writeToExcel(locations);
+		//eIO.writeToExcel(locations);
+		eIO.writeToExcel(places);
 	}
 
 	public void sendToDB(){

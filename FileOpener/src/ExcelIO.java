@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ import org.apache.poi.ss.util.WorkbookUtil;
 public class ExcelIO {
 
 	private String excelSheetName;
-	private  Map<String, SolarReceiver> data;
+	private  ArrayList<Location> data;
 	private File file;
 	private Workbook workbook;
 
@@ -29,7 +30,7 @@ public class ExcelIO {
 	public ExcelIO() {
 	}
 
-	public  void writeToExcel(HashMap<String, SolarReceiver> locations){
+	public  void writeToExcel(ArrayList<Location> locations){
 		data = locations;
 		writeToExcel();
 	}
@@ -61,7 +62,9 @@ public class ExcelIO {
 
 
 		int rownum = 1;
-		for(Entry<String, SolarReceiver> entry : data.entrySet()){
+		for(Location location : data){
+			for(Entry<String, Date> entry : location.getFiles().entrySet()) {
+				
 
 			// skapar en ny rad för varje nyckel i hashmappen
 			// Sedan hämtas Nyckeln som är ID för solfångaren
@@ -72,16 +75,16 @@ public class ExcelIO {
 			cell.setCellValue(fileName);
 
 			// Hämtas latitude och den har hårdkodats till cellnummer 1
-			Double latitude = entry.getValue().getLat();
+			Double latitude = location.getLat();
 			Cell cell1 = row.createCell(1);
 			cell1.setCellValue(latitude);
 
 			// Hämtas longitude och den har hårdkodats till cellnummer 2
-			Double longitude = entry.getValue().getLong();
+			Double longitude = location.getLong();
 			Cell cell2 = row.createCell(2);
 			cell2.setCellValue(longitude);
 			
-			Date Produktionsdatum = entry.getValue().getProductionDate();
+			Date Produktionsdatum = entry.getValue(); //getProductionDate()
 			Cell cell3 = row.createCell(3);
 			cell3.setCellValue(sdf.format(Produktionsdatum));
 
@@ -101,5 +104,6 @@ public class ExcelIO {
 			e.printStackTrace();
 		}
 
+	}
 	}
 }
