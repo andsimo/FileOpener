@@ -57,8 +57,8 @@ public class FileOpener {
 
 					//Läser in datum från filnamn och sparar i solarReciver
 					// ------- solarReceiver.setProductionDate(getDate(file.getName()));
-					if(!location.containsFile(file.toString())){
-						location.addReceiver(file.toString(), getDate(file.getName()));
+					if(!location.containsFile(file.getName())){
+						location.addReceiver(file.getName(), getDate(file.getName()));
 					}
 					
 					while(line != null){
