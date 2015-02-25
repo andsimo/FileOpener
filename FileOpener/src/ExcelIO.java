@@ -89,6 +89,8 @@ public class ExcelIO {
 
 				Cell cell4 = row.createCell(4);
 				cell4.setCellValue("N/A");
+			}
+		}
 
 				try {
 					// System.out.println(""+file.toString());
@@ -104,8 +106,8 @@ public class ExcelIO {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
+			
 
-		}
+		
 	}
 }

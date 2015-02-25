@@ -261,6 +261,9 @@ public class MainOpener extends JFrame{
 			
 		
 	}
-	
+
+	public void menuBarSettings(){
+		
+	}
 
 }
