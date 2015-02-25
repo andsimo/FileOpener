@@ -1,6 +1,12 @@
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
 import java.awt.Toolkit;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -22,10 +28,17 @@ public class MainOpener extends JFrame{
 	private File filePath,saveFilePath;
 	private JLabel filePathLabel, staticPathLabel;
 	private JCheckBox saveToExcelBox, saveToDBBox;
-
+	
+	private final JFrame thisFrame = this;
+	private TrayIcon trayIcon;
+	private SystemTray sysTray;
+	private Image paransImage;
+	private PopupMenu menu;
+	private MenuItem menuItem1, menuItem2;
+	
 	public static void main(String[] args) {
 		new MainOpener(); 
-
+		
 		while(true){		
 
 		}
@@ -57,8 +70,9 @@ public class MainOpener extends JFrame{
 
 		this.setTitle("FileOpener");
 		this.setSize(300, 200);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setBackground(Color.WHITE);
+		
 
 		// F�r att programmet ska �ppnas i mitten av sk�rmen
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -197,5 +211,56 @@ public class MainOpener extends JFrame{
 		this.add(saveToExcel);
 		this.add(saveToDBBox);
 		this.setVisible(true);
+		initTraySettings();
 	}
+	
+	
+	public void initTraySettings(){
+		if(!SystemTray.isSupported()){
+			System.out.println("SystemTray not supported!");
+			return;
+		}
+		
+			sysTray = SystemTray.getSystemTray();
+			paransImage = Toolkit.getDefaultToolkit().getImage("./paransTrayIcon.gif");
+			menu = new PopupMenu();
+			menuItem1 = new MenuItem("Open");
+			menuItem2 = new MenuItem("Exit");
+
+			menuItem1.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					thisFrame.setVisible(true);
+				}
+				
+			});
+			
+			menuItem2.addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);					
+				}
+				
+			});
+			
+			menu.add(menuItem1);
+			menu.add(menuItem2);
+			
+			
+			
+			
+			
+			trayIcon = new TrayIcon(paransImage, "FileOpener.", menu);
+			try{
+				sysTray.add(trayIcon);
+			}catch(AWTException e){
+				System.out.println(e.getMessage());
+			}
+			
+		
+	}
+	
+
 }
