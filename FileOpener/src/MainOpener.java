@@ -1,5 +1,6 @@
 import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.MenuItem;
@@ -11,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,7 +25,13 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.border.TitledBorder;
+
+import net.miginfocom.swing.MigLayout;
 
 public class MainOpener extends JFrame {
 
@@ -31,8 +39,10 @@ public class MainOpener extends JFrame {
 	private File filePath, saveFilePath;
 	private JLabel filePathLabel, staticPathLabel;
 	private JCheckBox saveToExcelBox, saveToDBBox;
+	private JTextField browseField;
 
 	private final JFrame thisFrame = this;
+	private JCheckBox excelCheckBox, dbCheckBox;
 
 	private TrayIcon trayIcon;
 	private SystemTray sysTray;
@@ -62,7 +72,8 @@ public class MainOpener extends JFrame {
 		 * db.insertIntoDB("fil1", -12.1212, 123.123032);
 		 */
 
-		createGUI();
+		//createGUI();
+		initGUI();
 	}
 
 	/*
@@ -239,6 +250,143 @@ public class MainOpener extends JFrame {
 		initTraySettings();
 	}
 
+	public void initGUI() {
+
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		this.setResizable(false);
+		this.setBounds(100, 100, 423, 265);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+
+		this.getContentPane().setLayout(new MigLayout("", "[grow][][]", "[][][][][][][]"));
+
+		JLabel lblDirectory = new JLabel("Directory:");
+		this.getContentPane().add(lblDirectory, "cell 0 0");
+
+		browseField = new JTextField();
+		this.getContentPane().add(browseField, "cell 0 1 2 1,growx");
+		browseField.setColumns(10);
+
+		JButton browseButton = new JButton("Browse");
+		browseButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				JFrame parentFrame = new JFrame();
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fileChooser.setDialogTitle("Open folder");
+
+				int userSelection = fileChooser.showOpenDialog(parentFrame);
+
+				if (userSelection == JFileChooser.APPROVE_OPTION) {
+					filePath = fileChooser.getSelectedFile();
+				}
+				if (filePath == null) {
+					browseField.setText(" ");
+				} else {
+					browseField.setText(filePath.toString());
+				}
+			}
+
+		});
+		this.getContentPane().add(browseButton, "cell 2 1");
+
+		JLabel exportLabel = new JLabel("Export options");
+		exportLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		this.getContentPane().add(exportLabel, "cell 1 2,growx,aligny center");
+
+		excelCheckBox = new JCheckBox("Save to Excel");
+		this.getContentPane().add(excelCheckBox, "cell 1 3");
+
+		dbCheckBox = new JCheckBox("Save to Database");
+		dbCheckBox.setSelected(true);
+		this.getContentPane().add(dbCheckBox, "cell 1 4");
+
+		JButton exportButton = new JButton("Export");
+		exportButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (filePath != null) {
+
+					FileOpener FO = new FileOpener(filePath, saveFilePath);
+
+					if (dbCheckBox.isSelected() && excelCheckBox.isSelected()) {		//Om båda checkboxarna är iklickade
+						selectSaveLocation();
+						FO.sendToExcel();
+						FO.sendToDB();
+					} 
+					else if (dbCheckBox.isSelected()			//Om endast Databas är icheckad
+							&& !excelCheckBox.isSelected()) {
+						
+						FO.sendToDB();
+						
+					}
+					else if(!dbCheckBox.isSelected() && excelCheckBox.isSelected()){ //Om endast 
+						selectSaveLocation();
+						FO.sendToExcel();
+		
+					}
+
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"Must select a folder containing log files.",
+							"inane error", JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+
+		});
+		this.getContentPane().add(exportButton, "cell 2 4");
+
+		Component verticalStrut = Box.createVerticalStrut(20);
+		this.getContentPane().add(verticalStrut, "cell 1 5");
+		
+		JPanel statusPanel = new JPanel();
+		statusPanel.setBorder(new TitledBorder(null, "Status", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		this.getContentPane().add(statusPanel, "cell 0 6 3 1,grow, newline push");
+		statusPanel.setLayout(new MigLayout("", "[grow]", "[]"));
+		
+		JLabel consoleLabel = new JLabel("Waiting for input");
+		statusPanel.add(consoleLabel, "cell 0 0,growx");
+
+		initMenubarSettings();
+		this.setVisible(true);
+		initTraySettings();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	public void selectSaveLocation(){
+		JFrame parentFrame = new JFrame();
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Save file");
+
+		int userSelection = fileChooser
+				.showSaveDialog(parentFrame);
+
+		if (userSelection == JFileChooser.APPROVE_OPTION)
+			saveFilePath = fileChooser.getSelectedFile();
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public void initTraySettings() {
 		if (!SystemTray.isSupported()) {
 			System.out.println("SystemTray not supported!");
@@ -299,7 +447,7 @@ public class MainOpener extends JFrame {
 				if (menuItemRunning.getText().equals("Stopped")) {
 					menuItemRunning.setText("Running...");
 					menuItemRunning.setIcon(green);
-					//KÖR KOD!
+					// KÖR KOD!
 				} else {
 					menuItemRunning.setText("Stopped");
 					menuItemRunning.setIcon(red);
