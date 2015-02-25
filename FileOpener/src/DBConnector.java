@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -45,7 +46,7 @@ public class DBConnector {
 	}
 	
 	
-	public void insertToDB(HashMap<String, SolarReceiver> locations){
+	public void insertToDB(ArrayList<Location> places){
 		String fileName = null;
 		int i = 0;
 		
@@ -53,26 +54,34 @@ public class DBConnector {
 			Class.forName(driver).newInstance();
 			Connection conn = DriverManager.getConnection(url+DbName, username, password);
 			
-			for(Entry<String, SolarReceiver> entry : locations.entrySet()){
-				fileName = entry.getKey();
-				Double latitude = entry.getValue().getLat();
-				Double longitude = entry.getValue().getLong();
+			//for(Entry<String, SolarReceiver> entry : locations.entrySet())
+			for(Location location : places){
+				for(Entry<String, java.util.Date> receiver : location.getFiles().entrySet()){
+				fileName = receiver.getKey();
+				Double latitude = location.getLat();
+				Double longitude = location.getLong();
 				
 				Statement st = conn.createStatement();
-				int val = st.executeUpdate("INSERT INTO locations VALUES('" + fileName + "', " + latitude + ", " + longitude + ")");
+				int val = st.executeUpdate("REPLACE INTO locations VALUES('" + fileName + "', " + latitude + ", " + longitude + ")"); //INSERT IGNORE VS REPLACE...
 				if(val == 1)
 						i++;
 				
 			}
-			System.out.println("Success, " + i + " files were added to GVS");
+			}
+			System.out.println("Success, " + i + " files were added to GVS table Locations");
 			conn.close();
-		} catch (Exception e){
+			
+			} catch (Exception e){
 			System.out.println(fileName + " error!");
 			e.printStackTrace();
 			
 		}
 		
+		
+		
 	}
+	
+	
 	
 	
 }

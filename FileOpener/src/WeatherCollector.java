@@ -21,10 +21,10 @@ public class WeatherCollector {
 																				// pï¿½
 																				// hemsidan.
 
-	private StaticMapCreator smc;
+	//private StaticMapCreator smc;
 
 	public WeatherCollector() {
-		smc = new StaticMapCreator();
+		//smc = new StaticMapCreator();
 
 	}
 
@@ -69,10 +69,11 @@ public class WeatherCollector {
 			}
 			is.close(); // Stänger ned strömmen!
 			con.disconnect();
+			
 			location.setCurrentWeather(weather);
 
-			// smc.createMap(latitude, longitude); //Avkommentera för att få en
-			// statisk bild över området.
+			// smc.createMap(latitude, longitude); //Avkommentera för att få en statisk bild över området.
+			// 
 			return buffer.toString();
 
 		} catch (Throwable t) {

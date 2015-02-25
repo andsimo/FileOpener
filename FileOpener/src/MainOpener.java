@@ -118,7 +118,7 @@ public class MainOpener extends JFrame{
 						}
 					}
 					if(saveToDBBox.isSelected()){
-						//FO.sendToDB();
+						FO.sendToDB();
 						
 						JOptionPane.showMessageDialog(null,
 							    "The data has now been sent to the database","Success",JOptionPane.PLAIN_MESSAGE);

@@ -20,6 +20,8 @@ public class SolarReceiver {
 	 * GETTERS och SETTERS
 	 */
 
+	
+	
 	public void setLong(double longitude){
 		this.longitude = longitude;
 	}
@@ -27,6 +29,7 @@ public class SolarReceiver {
 	public void setLat(double latitude){
 		this.latitude = latitude;
 	}
+	
 
 	public double getLong(){
 		return longitude;

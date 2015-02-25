@@ -20,12 +20,14 @@ public class FileOpener {
 	private File file;
 	private File[] listOfFiles;
 	private HashMap<String, SolarReceiver> locations;
+	private ArrayList<Location> places;
 	private WeatherCollector wC;
 	private ExcelIO eIO;
 	private DBConnector dataBase;
 
 	public FileOpener(File filePath, File saveFilePath) {
-		locations = new HashMap<String, SolarReceiver>();
+		//locations = new HashMap<String, SolarReceiver>();
+		places = new ArrayList<Location>();
 		file = filePath;
 		listOfFiles = file.listFiles();
 		wC = new WeatherCollector();
@@ -48,13 +50,17 @@ public class FileOpener {
 
 				try {
 					in = new BufferedReader(new FileReader(file));		
-					SolarReceiver solarReceiver = new SolarReceiver();			//Skapar ett SolarReciver-objekt fï¿½r varje lat/long-par.
+					//--------- SolarReceiver solarReceiver = new SolarReceiver();			//Skapar ett SolarReciver-objekt fï¿½r varje lat/long-par.
+					Location location = new Location();
 					StringBuilder sb = new StringBuilder();
 					String line = in.readLine();
 
 					//Läser in datum från filnamn och sparar i solarReciver
-					solarReceiver.setProductionDate(getDate(file.getName()));
-
+					// ------- solarReceiver.setProductionDate(getDate(file.getName()));
+					if(!location.containsFile(file.toString())){
+						location.addReceiver(file.toString(), getDate(file.getName()));
+					}
+					
 					while(line != null){
 
 						if(line.contains("Longitude") ){
@@ -63,7 +69,8 @@ public class FileOpener {
 							sb.append(System.lineSeparator());
 
 							String[] sla = sb.toString().split(":");		//Filtrerar bort "Longitude set as:" och lagrar som double i SolarReciver-objektet
-							solarReceiver.setLong(Double.parseDouble(sla[1]));
+							//------- solarReceiver.setLong(Double.parseDouble(sla[1]));
+							location.setLong(Double.parseDouble(sla[1]));
 
 							sb = new StringBuilder();			//Mï¿½ste skapa en ny stringBuilder varje gï¿½ng eftersom 
 
@@ -76,7 +83,8 @@ public class FileOpener {
 							sb.append(System.lineSeparator());
 
 							String[] sla = sb.toString().split(":");
-							solarReceiver.setLat(Double.parseDouble(sla[1]));
+							//----- solarReceiver.setLat(Double.parseDouble(sla[1]));
+							location.setLat(Double.parseDouble(sla[1]));
 
 							sb = new StringBuilder();
 
@@ -91,11 +99,12 @@ public class FileOpener {
 					 * Mï¿½ste kolla med handledare vad gï¿½ra med dessa! I dagslï¿½get kastas objektet bort.
 					 * 
 					 */
-					if(solarReceiver.getLat() == 0 && solarReceiver.getLong() == 0){
-						solarReceiver = null;
+					if(location.getLat() == 0 && location.getLong() == 0){
+						location = null;
 					}
 					else{
-						locations.put(file.getName(), solarReceiver);
+						//---------locations.put(file.getName(), solarReceiver);
+						places.add(location);
 					}
 
 				} catch (IOException e) {									//Skitdï¿½lig felhantering... it's something!
@@ -151,8 +160,9 @@ public class FileOpener {
 	}
 
 	public void sendToDB(){
-
-		dataBase.insertToDB(locations);
+		
+		dataBase.insertToDB(places);
+		//dataBase.insertToDB(locations);
 
 	}
 }
