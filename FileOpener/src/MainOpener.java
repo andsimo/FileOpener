@@ -313,21 +313,22 @@ public class MainOpener extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (filePath != null) {
 
-					FileOpener FO = new FileOpener(filePath, saveFilePath);
 
 					if (dbCheckBox.isSelected() && excelCheckBox.isSelected()) {		//Om båda checkboxarna är iklickade
 						selectSaveLocation();
+						FileOpener FO = new FileOpener(filePath, saveFilePath);
 						FO.sendToExcel();
 						FO.sendToDB();
 					} 
 					else if (dbCheckBox.isSelected()			//Om endast Databas är icheckad
 							&& !excelCheckBox.isSelected()) {
-						
+						FileOpener FO = new FileOpener(filePath, saveFilePath);
 						FO.sendToDB();
 						
 					}
 					else if(!dbCheckBox.isSelected() && excelCheckBox.isSelected()){ //Om endast 
 						selectSaveLocation();
+						FileOpener FO = new FileOpener(filePath, saveFilePath);
 						FO.sendToExcel();
 		
 					}
