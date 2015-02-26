@@ -121,11 +121,11 @@ public class DBConnector {
 				Double sunset = (double) CW.getSunset();
 				Double cloud = (double) CW.getCloudiness();
 				long date = CW.getCurrentTimeDate();
-
+				int sensors = location.getNumSensors();
 
 
 				Statement st = conn.createStatement();
-				int val = st.executeUpdate("INSERT INTO WeatherData VALUES('" + date + "', " + latitude + ", " + longitude + " , " + cloud + " , " + sunrise + " , " + sunset + ")"); //INSERT IGNORE VS REPLACE...
+				int val = st.executeUpdate("INSERT INTO WeatherData VALUES('" + date + "', " + latitude + ", " + longitude + " , " + cloud + " , " + sunrise + " , " + sunset + ", " + sensors + ")"); //INSERT IGNORE VS REPLACE...
 				if(val == 1)
 					i++;
 
