@@ -5,7 +5,6 @@ import java.util.HashMap;
 public class Location {
 
 	private double latitude, longitude;
-	private int sensors;
 	//private ArrayList<String> files;
 	private HashMap<String, String> files;
 	private CurrentWeather currentWeather;
@@ -30,11 +29,6 @@ public class Location {
 	}
 
 
-
-
-	public void addSensor(){
-		this.sensors++;
-	}
 
 
 	public CurrentWeather getWeather(){
@@ -63,7 +57,7 @@ public class Location {
 	}
 
 	public int getNumSensors(){
-		return sensors;
+		return files.size();
 	}
 
 	public String getProductionDate(){
@@ -95,6 +89,10 @@ public class Location {
 				return false;
 		}
 
+	}
+	
+	public void addFile(String fileName, String date){
+		files.put(fileName.toString(), date.toString());
 	}
 
 	public HashMap<String, String> getFiles(){

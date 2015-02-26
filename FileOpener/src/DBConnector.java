@@ -43,7 +43,7 @@ public class DBConnector {
 					Location cumLoc = places.get(i);
 
 					if(cumLoc.getLat() == latitude && cumLoc.getLong()== longitude ){
-						places.get(i).addSensor();
+						cumLoc.addFile(fileName, date);
 						found = true;
 					}
 				}
