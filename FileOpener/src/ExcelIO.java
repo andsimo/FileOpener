@@ -63,7 +63,7 @@ public class ExcelIO {
 
 		int rownum = 1;
 		for (Location location : data) {
-			for (Entry<String, Date> entry : location.getFiles().entrySet()) {
+			for (Entry<String, String> entry : location.getFiles().entrySet()) {
 
 				// skapar en ny rad för varje nyckel i hashmappen
 				// Sedan hämtas Nyckeln som är ID för solfångaren
@@ -83,7 +83,7 @@ public class ExcelIO {
 				Cell cell2 = row.createCell(2);
 				cell2.setCellValue(longitude);
 
-				Date Produktionsdatum = entry.getValue(); // getProductionDate()
+				String Produktionsdatum = entry.getValue(); // getProductionDate()
 				Cell cell3 = row.createCell(3);
 				cell3.setCellValue(sdf.format(Produktionsdatum));
 

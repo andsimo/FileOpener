@@ -11,6 +11,7 @@ import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -57,7 +58,7 @@ public class MainOpener extends JFrame {
 
 	public static void main(String[] args) {
 		new MainOpener();
-
+		
 		while (true) {
 
 		}
@@ -74,6 +75,21 @@ public class MainOpener extends JFrame {
 
 		//createGUI();
 		initGUI();
+		test();
+	}
+
+	private void test() {
+		
+		WeatherCollector WC = new WeatherCollector();
+		DBConnector DB = new DBConnector();
+		ArrayList<Location> tempList = DB.receiveFromDB();
+		
+		for(int i = 0; i < tempList.size(); i++){
+			WC.getWeather(tempList.get(i));
+			tempList.get(i).setWeatherTime(System.currentTimeMillis());
+		}
+		DB.weatherUpdate(tempList);
+		
 	}
 
 	/*
@@ -314,13 +330,13 @@ public class MainOpener extends JFrame {
 				if (filePath != null) {
 
 
-					if (dbCheckBox.isSelected() && excelCheckBox.isSelected()) {		//Om båda checkboxarna är iklickade
+					if (dbCheckBox.isSelected() && excelCheckBox.isSelected()) {		//Om bï¿½da checkboxarna ï¿½r iklickade
 						selectSaveLocation();
 						FileOpener FO = new FileOpener(filePath, saveFilePath);
 						FO.sendToExcel();
 						FO.sendToDB();
 					} 
-					else if (dbCheckBox.isSelected()			//Om endast Databas är icheckad
+					else if (dbCheckBox.isSelected()			//Om endast Databas ï¿½r icheckad
 							&& !excelCheckBox.isSelected()) {
 						FileOpener FO = new FileOpener(filePath, saveFilePath);
 						FO.sendToDB();
@@ -448,7 +464,7 @@ public class MainOpener extends JFrame {
 				if (menuItemRunning.getText().equals("Stopped")) {
 					menuItemRunning.setText("Running...");
 					menuItemRunning.setIcon(green);
-					// KÖR KOD!
+					// Kï¿½R KOD!
 				} else {
 					menuItemRunning.setText("Stopped");
 					menuItemRunning.setIcon(red);

@@ -55,7 +55,7 @@ public class FileOpener {
 					StringBuilder sb = new StringBuilder();
 					String line = in.readLine();
 
-					//Läser in datum från filnamn och sparar i solarReciver
+					//Lï¿½ser in datum frï¿½n filnamn och sparar i solarReciver
 					// ------- solarReceiver.setProductionDate(getDate(file.getName()));
 					if(!location.containsFile(file.getName())){
 						location.addReceiver(file.getName(), getDate(file.getName()));
@@ -99,7 +99,7 @@ public class FileOpener {
 					 * Mï¿½ste kolla med handledare vad gï¿½ra med dessa! I dagslï¿½get kastas objektet bort.
 					 * 
 					 */
-					if(location.getLat() == 0 && location.getLong() == 0){
+					if(location.getLat() == 0 && location.getLong() == 0 || location.getLat() > 90 || location.getLat() < -90){
 						location = null;
 					}
 					else{
@@ -124,20 +124,15 @@ public class FileOpener {
 	 * 
 	 * @return Date
 	 */
-	private Date getDate(String fileName) {
+	private String getDate(String fileName) {
 		Pattern datePattern = Pattern.compile("(\\d{4}) (\\d{2}) (\\d{2})");
 		Matcher dateMatcher = datePattern.matcher(fileName);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
 
 		if (dateMatcher.find()){
-			String temp = dateMatcher.group(1)+"-"+dateMatcher.group(2)+"-"+dateMatcher.group(3);
-			try {
-				date = sdf.parse(temp);
-				return date;
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			String temp = dateMatcher.group(1)+dateMatcher.group(2)+dateMatcher.group(3);
+			return temp;
 		}
 		return null;		
 	}

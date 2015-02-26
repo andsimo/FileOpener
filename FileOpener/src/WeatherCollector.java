@@ -29,10 +29,10 @@ public class WeatherCollector {
 	}
 
 	/*
-	 * Metod som hämtar data. Inparametrar latitud och longitud fï¿½r plats av
+	 * Metod som hï¿½mtar data. Inparametrar latitud och longitud fï¿½r plats av
 	 * relevans.
 	 */
-	public String getWeather(Location location) {
+	public void getWeather(Location location) {
 
 		String lat = "lat=" + location.getLat() + "&";
 		String lon = "lon=" + location.getLong();
@@ -44,7 +44,7 @@ public class WeatherCollector {
 
 		try {
 			con = (HttpURLConnection) (new URL(BASE_URL + lat + lon + API_KEY))
-					.openConnection(); // Syr ihop en sträng till URL och skapar
+					.openConnection(); // Syr ihop en strï¿½ng till URL och skapar
 										// en connection till servern.
 			con.setRequestMethod("GET");
 			con.setDoInput(true);
@@ -57,28 +57,32 @@ public class WeatherCollector {
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			String line = null;
 
-			while ((line = br.readLine()) != null) { // Läser och printar ut
+			while ((line = br.readLine()) != null) { // Lï¿½ser och printar ut
 														// resultatet frï¿½n
 														// query.
 				buffer.append(line + "\r\n");
 				getClouds(line, weather);
 				getSunTimes(line, weather);
-				// SÄTT IN HÄR!
+				// Sï¿½TT IN Hï¿½R!
 				System.out.println(line);
 
 			}
-			is.close(); // Stänger ned strömmen!
+			is.close(); // Stï¿½nger ned strï¿½mmen!
 			con.disconnect();
 			
 			location.setCurrentWeather(weather);
 
-			// smc.createMap(latitude, longitude); //Avkommentera för att få en statisk bild över området.
+			// smc.createMap(latitude, longitude); //Avkommentera fï¿½r att fï¿½ en statisk bild ï¿½ver omrï¿½det.
 			// 
-			return buffer.toString();
+			//return buffer.toString();
 
-		} catch (Throwable t) {
+		} catch (JSONException e){
+			//e.printStackTrace();
+			
+		}catch (Throwable t) {
 			t.printStackTrace();
-		} finally {
+		} 
+		finally {
 			try {
 				is.close();
 			} catch (Throwable t) {
@@ -89,7 +93,7 @@ public class WeatherCollector {
 			}
 		}
 
-		return null;
+		//return null;
 
 	}
 

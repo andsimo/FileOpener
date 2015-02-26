@@ -8,80 +8,140 @@ public class DBConnector {
 
 	private String url = "jdbc:mysql://46.239.117.17:3306/";	//Just nu endast lokalt. min IP 46.239.117.17    localhost
 	private String DbName = "GVS";						//Schemats namn satt av Simon
-	private String driver ="com.mysql.jdbc.Driver";		//Väljer vilken typ av db vi kopplar upp oss mot. Kräver buildpath.
-	private String username = "fileopener";				//Användarnamn satt av Simon.
-	private String password = "parans";					//Lösenord satt av Simon.
-	
-	
+	private String driver ="com.mysql.jdbc.Driver";		//Vï¿½ljer vilken typ av db vi kopplar upp oss mot. Krï¿½ver buildpath.
+	private String username = "fileopener";				//Anvï¿½ndarnamn satt av Simon.
+	private String password = "parans";					//Lï¿½senord satt av Simon.
+
+
 	public DBConnector(){
-		
+
 	}
-	
-	public void receiveFromDB(){
-		
+
+	public ArrayList<Location> receiveFromDB(){
+
+		ArrayList<Location> places = new ArrayList<Location>();
+		Location tempPlace;
+
 		try{
 			Class.forName(driver).newInstance();
-			Connection conn = DriverManager.getConnection(url+DbName, username, password);
-			
+			//Connection conn = DriverManager.getConnection(url+DbName, username, password);
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
+
 			Statement st = conn.createStatement();
 			ResultSet result = st.executeQuery("SELECT * FROM locations");
-			
+
 			while(result.next()){
-				
-			String fileName = result.getString("fileName");
-			Double latitude = result.getDouble("latitude");
-			Double longitude = result.getDouble("longitude");
-			
-			System.out.println(fileName + " lat: " + latitude + " long: " + longitude);
-				
+
+				String fileName = result.getString("fileName");
+				Double latitude = result.getDouble("latitude");
+				Double longitude = result.getDouble("longitude");
+				String date = result.getString("prodDate");
+
+				boolean found = false;
+
+				for (int i = 0; i < places.size(); i++){
+					Location cumLoc = places.get(i);
+
+					if(cumLoc.getLat() == latitude && cumLoc.getLong()== longitude ){
+						places.get(i).addSensor();
+						found = true;
+					}
+				}
+				if(!found){
+					tempPlace = new Location(latitude,longitude,fileName, date);
+					places.add(tempPlace);
+				}
+
+				System.out.println(fileName + " lat: " + latitude + " long: " + longitude);
+
 			}
-			
-			
+
+
 			conn.close();
 		} catch(Exception e){
 			e.printStackTrace();
 		}
-		
-		
+		return places;
 	}
-	
-	
+
 	public void insertToDB(ArrayList<Location> places){
+
 		String fileName = null;
 		int i = 0;
-		
+
 		try{
 			Class.forName(driver).newInstance();
-			Connection conn = DriverManager.getConnection(url+DbName, username, password);
-			
+			//Connection conn = DriverManager.getConnection(url+DbName, username, password);
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
+
 			//for(Entry<String, SolarReceiver> entry : locations.entrySet())
 			for(Location location : places){
-				for(Entry<String, java.util.Date> receiver : location.getFiles().entrySet()){
-				fileName = receiver.getKey();
-				Double latitude = location.getLat();
-				Double longitude = location.getLong();
-				
-				Statement st = conn.createStatement();
-				int val = st.executeUpdate("REPLACE INTO locations VALUES('" + fileName + "', " + latitude + ", " + longitude + ")"); //INSERT IGNORE VS REPLACE...
-				if(val == 1)
+				for(Entry<String, String> receiver : location.getFiles().entrySet()){
+					fileName = receiver.getKey();
+					Double latitude = location.getLat();
+					Double longitude = location.getLong();
+					String date = location.getProductionDate();
+
+					Statement st = conn.createStatement();
+					int val = st.executeUpdate("REPLACE INTO locations VALUES('" + fileName + "', " + latitude + ", " + longitude + ", " + date + ")"); //INSERT IGNORE VS REPLACE...
+					if(val == 1)
 						i++;
-				
-			}
+
+				}
 			}
 			System.out.println("Success, " + i + " files were added to GVS table Locations");
 			conn.close();
-			
-			} catch (Exception e){
+
+		} catch (Exception e){
 			System.out.println(fileName + " error!");
 			e.printStackTrace();
-			
+
 		}
-		
-		
-		
+
+
+
 	}
-	
-	
-	
-	
+
+
+	public void weatherUpdate(ArrayList<Location> places){
+		String fileName = null;
+		int i = 0;
+
+		try{
+			Class.forName(driver).newInstance();
+			//Connection conn = DriverManager.getConnection(url+DbName, username, password);
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
+
+			//for(Entry<String, SolarReceiver> entry : locations.entrySet())
+			for(Location location : places){
+				Double latitude = location.getLat();
+				Double longitude = location.getLong();
+				CurrentWeather CW = location.getWeather();
+				Double sunrise = (double) CW.getSunrise();
+				Double sunset = (double) CW.getSunset();
+				Double cloud = (double) CW.getCloudiness();
+				long date = CW.getCurrentTimeDate();
+
+
+
+				Statement st = conn.createStatement();
+				int val = st.executeUpdate("INSERT INTO WeatherData VALUES('" + date + "', " + latitude + ", " + longitude + " , " + cloud + " , " + sunrise + " , " + sunset + ")"); //INSERT IGNORE VS REPLACE...
+				if(val == 1)
+					i++;
+
+			}
+			System.out.println("Success, " + i + " files were added to table WeatherData");
+			conn.close();
+
+		} catch (Exception e){
+			System.out.println(fileName + " error!");
+			e.printStackTrace();
+
+		}
+
+
+
+	}
+
+
 }

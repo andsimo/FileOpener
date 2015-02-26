@@ -1,10 +1,14 @@
+import java.sql.Date;
+
+
+
 
 public class CurrentWeather {
 	
 
 	private int cloudiness;
 	private long sunrise, sunset;
-
+	private long currentTimeDate = 0;
 	
 	public CurrentWeather(){
 		this.cloudiness = 1000;
@@ -19,7 +23,6 @@ public class CurrentWeather {
 	public int getCloudiness(){
 		return cloudiness;
 	}
-
 	
 	public void setSunrise(long sunrise){
 		this.sunrise = sunrise;
@@ -30,6 +33,12 @@ public class CurrentWeather {
 	public void setCloudiness(int cloudiness){
 		this.cloudiness = cloudiness;
 	}
-	
-	
+
+	public long getCurrentTimeDate() {
+		return (long) currentTimeDate;
+	}
+
+	public void setCurrentTimeDate(long time) {
+		this.currentTimeDate = time;
+	}
 }
