@@ -84,6 +84,10 @@ public class MainOpener extends JFrame {
 		DBConnector DB = new DBConnector();
 		ArrayList<Location> tempList = DB.receiveFromDB();
 		
+		System.out.println("");
+		System.out.println("Number: " + tempList.size());
+		System.out.println("");
+		
 		for(int i = 0; i < tempList.size(); i++){
 			WC.getWeather(tempList.get(i));
 			tempList.get(i).setWeatherTime(System.currentTimeMillis());

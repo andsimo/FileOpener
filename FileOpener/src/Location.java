@@ -22,9 +22,13 @@ public class Location {
 		
 		currentWeather = new CurrentWeather();
 		files = new HashMap<String, String>();
-		System.out.println(productionDate);
 		this.latitude = latitude;
 		this.longitude = longitude;
+		if(productionDate == null)
+			productionDate = "N/A";
+		if(file == null)
+			file = "N/A";
+
 		files.put(file.toString(), productionDate.toString());
 	}
 

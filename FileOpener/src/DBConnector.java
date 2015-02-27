@@ -24,12 +24,12 @@ public class DBConnector {
 
 		try{
 			Class.forName(driver).newInstance();
-			//Connection conn = DriverManager.getConnection(url+DbName, username, password);
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
+			Connection conn = DriverManager.getConnection(url+DbName, username, password);
+			//Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
 
 			Statement st = conn.createStatement();
 			ResultSet result = st.executeQuery("SELECT * FROM locations");
-
+			
 			while(result.next()){
 
 				String fileName = result.getString("fileName");
@@ -48,15 +48,12 @@ public class DBConnector {
 					}
 				}
 				if(!found){
+					if( !(latitude > 90 || latitude < -90 || longitude > 180 || longitude < -180)){
 					tempPlace = new Location(latitude,longitude,fileName, date);
 					places.add(tempPlace);
+					}
 				}
-
-				System.out.println(fileName + " lat: " + latitude + " long: " + longitude);
-
 			}
-
-
 			conn.close();
 		} catch(Exception e){
 			e.printStackTrace();
@@ -71,8 +68,8 @@ public class DBConnector {
 
 		try{
 			Class.forName(driver).newInstance();
-			//Connection conn = DriverManager.getConnection(url+DbName, username, password);
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
+			Connection conn = DriverManager.getConnection(url+DbName, username, password);
+			//Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
 
 			//for(Entry<String, SolarReceiver> entry : locations.entrySet())
 			for(Location location : places){
@@ -109,8 +106,8 @@ public class DBConnector {
 
 		try{
 			Class.forName(driver).newInstance();
-			//Connection conn = DriverManager.getConnection(url+DbName, username, password);
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
+			Connection conn = DriverManager.getConnection(url+DbName, username, password);
+			//Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
 
 			//for(Entry<String, SolarReceiver> entry : locations.entrySet())
 			for(Location location : places){
