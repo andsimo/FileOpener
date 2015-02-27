@@ -24,8 +24,8 @@ public class DBConnector {
 
 		try{
 			Class.forName(driver).newInstance();
-			Connection conn = DriverManager.getConnection(url+DbName, username, password);
-			//Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
+			//Connection conn = DriverManager.getConnection(url+DbName, username, password);
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
 
 			Statement st = conn.createStatement();
 			ResultSet result = st.executeQuery("SELECT * FROM locations");
@@ -68,8 +68,8 @@ public class DBConnector {
 
 		try{
 			Class.forName(driver).newInstance();
-			Connection conn = DriverManager.getConnection(url+DbName, username, password);
-			//Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
+			//Connection conn = DriverManager.getConnection(url+DbName, username, password);
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
 
 			//for(Entry<String, SolarReceiver> entry : locations.entrySet())
 			for(Location location : places){
@@ -106,8 +106,8 @@ public class DBConnector {
 
 		try{
 			Class.forName(driver).newInstance();
-			Connection conn = DriverManager.getConnection(url+DbName, username, password);
-			//Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
+			//Connection conn = DriverManager.getConnection(url+DbName, username, password);
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
 
 			//for(Entry<String, SolarReceiver> entry : locations.entrySet())
 			for(Location location : places){

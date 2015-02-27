@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -29,6 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
@@ -55,7 +57,11 @@ public class MainOpener extends JFrame {
 	private JMenu statusMenu, fileMenu;
 	private JMenuItem menuItemRunning, menuItemExit;
 	private ImageIcon red, green;
+	private JPanel statusPanel;
+	private JLabel consoleLabel;
 
+	private volatile boolean running = false;
+	
 	public static void main(String[] args) {
 		new MainOpener();
 		
@@ -75,25 +81,51 @@ public class MainOpener extends JFrame {
 
 		//createGUI();
 		initGUI();
-		test();
+		//UpdateWeather();
 	}
+	
+	
+		private void setConsoleText(final String text){
+			SwingUtilities.invokeLater(new Runnable(){
+				public void run(){
+					consoleLabel.setText(text);
+				}
+			});
+		}
 
-	private void test() {
+
+	private void UpdateWeather() {
+
+		
+		setConsoleText("Updating weather, please wait!");
+		this.setEnabled(false);
 		
 		WeatherCollector WC = new WeatherCollector();
 		DBConnector DB = new DBConnector();
 		ArrayList<Location> tempList = DB.receiveFromDB();
 		
-		System.out.println("");
-		System.out.println("Number: " + tempList.size());
-		System.out.println("");
+		if(tempList.size() > 0){
 		
 		for(int i = 0; i < tempList.size(); i++){
 			WC.getWeather(tempList.get(i));
 			tempList.get(i).setWeatherTime(System.currentTimeMillis());
 		}
 		DB.weatherUpdate(tempList);
+		}
+		else{
+			JOptionPane
+			.showMessageDialog(
+					null,
+					"Empty DB.",
+					"Inane error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	
+		//updateBackground();
 		
+		this.setEnabled(true);
+
+		setConsoleText("Ready!");
 	}
 
 	/*
@@ -367,12 +399,13 @@ public class MainOpener extends JFrame {
 		Component verticalStrut = Box.createVerticalStrut(20);
 		this.getContentPane().add(verticalStrut, "cell 1 5");
 		
-		JPanel statusPanel = new JPanel();
+		statusPanel = new JPanel();
 		statusPanel.setBorder(new TitledBorder(null, "Status", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		this.getContentPane().add(statusPanel, "cell 0 6 3 1,grow, newline push");
 		statusPanel.setLayout(new MigLayout("", "[grow]", "[]"));
 		
-		JLabel consoleLabel = new JLabel("Waiting for input");
+		consoleLabel = new JLabel("Waiting for input");
+		
 		statusPanel.add(consoleLabel, "cell 0 0,growx");
 
 		initMenubarSettings();
@@ -463,16 +496,43 @@ public class MainOpener extends JFrame {
 		menuItemRunning = new JMenuItem("Stopped", red);
 		menuItemRunning.addActionListener(new ActionListener() {
 
+			
+			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Thread t = new Thread(new Runnable(){
+					public void run(){
+						try {
+							while(running){
+								System.out.println(new Date());
+								UpdateWeather();
+							Thread.sleep(1000*3600);
+						
+							}
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						
+					}
+				});
 				if (menuItemRunning.getText().equals("Stopped")) {
 					menuItemRunning.setText("Running...");
 					menuItemRunning.setIcon(green);
+					running = true;
+					
+					
+					t.start();
+					//UpdateWeather();
 					// K�R KOD!
 				} else {
 					menuItemRunning.setText("Stopped");
 					menuItemRunning.setIcon(red);
+					running = false;
+					t.interrupt();
+					setConsoleText("Waiting for input");
 				}
+				
+				
 			}
 
 		});
