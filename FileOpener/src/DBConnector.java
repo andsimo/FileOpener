@@ -103,6 +103,7 @@ public class DBConnector {
 
 
 			Statement st = conn.createStatement();
+			// int val = st.executeUpdate("REPLACE INTO WeatherData VALUES('" + date + "', " + latitude + ", " + longitude + " , " + cloud + " , " + sunrise + " , " + sunset + ", " + sensors + ")");
 			int val = st.executeUpdate("INSERT INTO WeatherData VALUES('" + date + "', " + latitude + ", " + longitude + " , " + cloud + " , " + sunrise + " , " + sunset + ", " + sensors + ")"); //INSERT IGNORE VS REPLACE...
 			if(val == 1)
 				i++;
