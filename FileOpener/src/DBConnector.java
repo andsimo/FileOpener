@@ -84,6 +84,12 @@ public class DBConnector {
 	}
 
 
+	/**
+	 * Weather update, updates the database with the latest weather data
+	 *
+	 * @param places, a list that contains the class Location 
+	 * @throws Exception, throws Exception if there is something wrong with the connection to the database
+	 */
 	public void weatherUpdate(ArrayList<Location> places) throws Exception{
 		int i = 0;
 		Class.forName(driver).newInstance();
