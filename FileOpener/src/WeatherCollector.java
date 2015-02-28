@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.json.JSONException;
@@ -32,7 +34,7 @@ public class WeatherCollector {
 	 * Metod som h�mtar data. Inparametrar latitud och longitud f�r plats av
 	 * relevans.
 	 */
-	public void getWeather(Location location) {
+	public void getWeather(Location location) throws IOException {
 
 		String lat = "lat=" + location.getLat() + "&";
 		String lon = "lon=" + location.getLong();
@@ -78,10 +80,7 @@ public class WeatherCollector {
 
 		} catch (JSONException e){
 			//e.printStackTrace();
-			
-		}catch (Throwable t) {
-			t.printStackTrace();
-		} 
+		}
 		finally {
 			try {
 				is.close();

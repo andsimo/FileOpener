@@ -11,6 +11,7 @@ import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -61,10 +62,10 @@ public class MainOpener extends JFrame {
 	private JLabel consoleLabel;
 
 	private volatile boolean running = false;
-	
+
 	public static void main(String[] args) {
 		new MainOpener();
-		
+
 		while (true) {
 
 		}
@@ -83,34 +84,73 @@ public class MainOpener extends JFrame {
 		initGUI();
 		//UpdateWeather();
 	}
-	
-	
-		private void setConsoleText(final String text){
-			SwingUtilities.invokeLater(new Runnable(){
-				public void run(){
-					consoleLabel.setText(text);
-				}
-			});
-		}
+
+
+	private void setConsoleText(final String text){
+		SwingUtilities.invokeLater(new Runnable(){
+			public void run(){
+				consoleLabel.setText(text);
+			}
+		});
+	}
 
 
 	private void UpdateWeather() {
 
-		
+
 		setConsoleText("Updating weather, please wait!");
 		this.setEnabled(false);
-		
+
 		WeatherCollector WC = new WeatherCollector();
 		DBConnector DB = new DBConnector();
-		ArrayList<Location> tempList = DB.receiveFromDB();
-		
-		if(tempList.size() > 0){
-		
-		for(int i = 0; i < tempList.size(); i++){
-			WC.getWeather(tempList.get(i));
-			tempList.get(i).setWeatherTime(System.currentTimeMillis());
+		ArrayList<Location> tempList = new ArrayList<>();
+		try {
+			tempList.addAll(DB.receiveFromDB());
+			//tempList = DB.receiveFromDB();
+		} catch (Exception e) {
+			//Om det inte går att skapa en connection med databasen skrivs ett felmedelande ut
+			setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
+			JOptionPane
+			.showMessageDialog(
+					null,
+					"An error occurred while attempting to connect to the database.",
+					"Inane error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+			this.setEnabled(true);
+			return;
 		}
-		DB.weatherUpdate(tempList);
+
+		if(tempList.size() > 0){
+
+			for(int i = 0; i < tempList.size(); i++){
+				try {
+					WC.getWeather(tempList.get(i));
+					tempList.get(i).setWeatherTime(System.currentTimeMillis());
+				} catch (IOException e) {
+					setConsoleText("<html><font color='red'>An error occurred while attempting to connect to OpenWeatherMap.</font></html>");
+					JOptionPane
+					.showMessageDialog(
+							null,
+							"An error occurred while attempting to connect to OpenWeatherMap.",
+							"Inane error",
+							JOptionPane.ERROR_MESSAGE);
+					e.printStackTrace();
+				}
+			}
+			try {
+				DB.weatherUpdate(tempList);
+			} catch (Exception e) {setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
+			JOptionPane
+			.showMessageDialog(
+					null,
+					"An error occurred while attempting to connect to the database.",
+					"Inane error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+			}
+
+			setConsoleText("Ready!");
 		}
 		else{
 			JOptionPane
@@ -120,12 +160,7 @@ public class MainOpener extends JFrame {
 					"Inane error",
 					JOptionPane.ERROR_MESSAGE);
 		}
-	
-		//updateBackground();
-		
 		this.setEnabled(true);
-
-		setConsoleText("Ready!");
 	}
 
 	/*
@@ -167,7 +202,7 @@ public class MainOpener extends JFrame {
 		filePathLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
 		if (filePath != null) // Men skulle nï¿½got finnas i filePath sï¿½
-								// sï¿½tts Label till detta.
+			// sï¿½tts Label till detta.
 			filePathLabel.setText(filePath.toString());
 
 		this.add(filePathLabel);
@@ -192,52 +227,63 @@ public class MainOpener extends JFrame {
 
 		openFiles.addActionListener(new ActionListener() { // TODO: OPENFILES
 
-					public void actionPerformed(ActionEvent e) {
-						if (filePath != null) { // Om inget directory har valts,
-												// gï¿½r nothing
-							FileOpener FO = new FileOpener(filePath,
-									saveFilePath);
-							if (saveFilePath != null
-									&& saveToExcelBox.isSelected()) {
-								FO.sendToExcel();
-								saveFilePath = null;
-							} else {
-								if (saveToExcelBox.isSelected()) {
-									JOptionPane
-											.showMessageDialog(
-													null,
-													"Must select the destination folder and name of the file to save to Excel.",
-													"Inane error",
-													JOptionPane.ERROR_MESSAGE);
-								}
-							}
-							if (saveToDBBox.isSelected()) {
-								FO.sendToDB();
-
-								JOptionPane
-										.showMessageDialog(
-												null,
-												"The data has now been sent to the database",
-												"Success",
-												JOptionPane.PLAIN_MESSAGE);
-
-							}
-							if (!saveToExcelBox.isSelected()
-									&& !saveToDBBox.isSelected()) {
-								JOptionPane
-										.showMessageDialog(
-												null,
-												"Must choose to save to Excel or send to the database.",
-												"Inane error",
-												JOptionPane.ERROR_MESSAGE);
-							}
-						} else if (filePath == null) {
-							JOptionPane.showMessageDialog(null,
-									"Must select a folder with log files.",
-									"Inane error", JOptionPane.ERROR_MESSAGE);
+			public void actionPerformed(ActionEvent e) {
+				if (filePath != null) { // Om inget directory har valts,
+					// gï¿½r nothing
+					FileOpener FO = new FileOpener(filePath,
+							saveFilePath);
+					if (saveFilePath != null
+							&& saveToExcelBox.isSelected()) {
+						FO.sendToExcel();
+						saveFilePath = null;
+					} else {
+						if (saveToExcelBox.isSelected()) {
+							JOptionPane
+							.showMessageDialog(
+									null,
+									"Must select the destination folder and name of the file to save to Excel.",
+									"Inane error",
+									JOptionPane.ERROR_MESSAGE);
 						}
 					}
-				});
+					if (saveToDBBox.isSelected()) {
+						try {
+							FO.sendToDB();
+						} catch (Exception e1) {
+							setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
+							JOptionPane
+							.showMessageDialog(
+									null,
+									"An error occurred while attempting to connect to the database.",
+									"Inane error",
+									JOptionPane.ERROR_MESSAGE);
+							e1.printStackTrace();
+						}
+
+						JOptionPane
+						.showMessageDialog(
+								null,
+								"The data has now been sent to the database",
+								"Success",
+								JOptionPane.PLAIN_MESSAGE);
+
+					}
+					if (!saveToExcelBox.isSelected()
+							&& !saveToDBBox.isSelected()) {
+						JOptionPane
+						.showMessageDialog(
+								null,
+								"Must choose to save to Excel or send to the database.",
+								"Inane error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				} else if (filePath == null) {
+					JOptionPane.showMessageDialog(null,
+							"Must select a folder with log files.",
+							"Inane error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 
 		// ******************************************************//
 		/*
@@ -370,19 +416,41 @@ public class MainOpener extends JFrame {
 						selectSaveLocation();
 						FileOpener FO = new FileOpener(filePath, saveFilePath);
 						FO.sendToExcel();
-						FO.sendToDB();
+						try {
+							FO.sendToDB();
+						} catch (Exception e) {
+							setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
+							JOptionPane
+							.showMessageDialog(
+									null,
+									"An error occurred while attempting to connect to the database.",
+									"Inane error",
+									JOptionPane.ERROR_MESSAGE);
+							e.printStackTrace();
+						}
 					} 
 					else if (dbCheckBox.isSelected()			//Om endast Databas ï¿½r icheckad
 							&& !excelCheckBox.isSelected()) {
 						FileOpener FO = new FileOpener(filePath, saveFilePath);
-						FO.sendToDB();
-						
+						try {
+							FO.sendToDB();
+						} catch (Exception e) {
+							setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
+							JOptionPane
+							.showMessageDialog(
+									null,
+									"An error occurred while attempting to connect to the database.",
+									"Inane error",
+									JOptionPane.ERROR_MESSAGE);
+							e.printStackTrace();
+						}
+
 					}
 					else if(!dbCheckBox.isSelected() && excelCheckBox.isSelected()){ //Om endast 
 						selectSaveLocation();
 						FileOpener FO = new FileOpener(filePath, saveFilePath);
 						FO.sendToExcel();
-		
+
 					}
 
 				} else {
@@ -398,28 +466,21 @@ public class MainOpener extends JFrame {
 
 		Component verticalStrut = Box.createVerticalStrut(20);
 		this.getContentPane().add(verticalStrut, "cell 1 5");
-		
+
 		statusPanel = new JPanel();
 		statusPanel.setBorder(new TitledBorder(null, "Status", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		this.getContentPane().add(statusPanel, "cell 0 6 3 1,grow, newline push");
 		statusPanel.setLayout(new MigLayout("", "[grow]", "[]"));
-		
+
 		consoleLabel = new JLabel("Waiting for input");
-		
+
 		statusPanel.add(consoleLabel, "cell 0 0,growx");
 
 		initMenubarSettings();
 		this.setVisible(true);
 		initTraySettings();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
 	public void selectSaveLocation(){
 		JFrame parentFrame = new JFrame();
 		JFileChooser fileChooser = new JFileChooser();
@@ -432,15 +493,7 @@ public class MainOpener extends JFrame {
 			saveFilePath = fileChooser.getSelectedFile();
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	public void initTraySettings() {
 		if (!SystemTray.isSupported()) {
 			System.out.println("SystemTray not supported!");
@@ -496,7 +549,7 @@ public class MainOpener extends JFrame {
 		menuItemRunning = new JMenuItem("Stopped", red);
 		menuItemRunning.addActionListener(new ActionListener() {
 
-			
+
 			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -506,21 +559,21 @@ public class MainOpener extends JFrame {
 							while(running){
 								System.out.println(new Date());
 								UpdateWeather();
-							Thread.sleep(1000*3600);
-						
+								Thread.sleep(1000*3600);
+
 							}
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						
+
 					}
 				});
 				if (menuItemRunning.getText().equals("Stopped")) {
 					menuItemRunning.setText("Running...");
 					menuItemRunning.setIcon(green);
 					running = true;
-					
-					
+
+
 					t.start();
 					//UpdateWeather();
 					// Kï¿½R KOD!
@@ -531,8 +584,8 @@ public class MainOpener extends JFrame {
 					t.interrupt();
 					setConsoleText("Waiting for input");
 				}
-				
-				
+
+
 			}
 
 		});

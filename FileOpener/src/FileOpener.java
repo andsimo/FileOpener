@@ -155,7 +155,7 @@ public class FileOpener {
 		eIO.writeToExcel(places);
 	}
 
-	public void sendToDB(){
+	public void sendToDB() throws Exception{
 		
 		dataBase.insertToDB(places);
 		//dataBase.insertToDB(locations);
