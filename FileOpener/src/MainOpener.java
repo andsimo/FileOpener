@@ -86,6 +86,11 @@ public class MainOpener extends JFrame {
 	}
 
 
+	/**
+	 * Sets the consoleLabel text.
+	 * is a separate thread to write to consoleLabel , while other processes are running
+	 * @param text 
+	 */
 	private void setConsoleText(final String text){
 		SwingUtilities.invokeLater(new Runnable(){
 			public void run(){
@@ -95,6 +100,16 @@ public class MainOpener extends JFrame {
 	}
 
 
+	/**
+	 * Update weather.
+	 * Function is responsible for updating the weather in the database.
+	 * Retrieves locations from the database
+	 * Use this data to fetch weather from OpenWeatherMap
+	 * Then it updates the weather in the database
+	 * 
+	 * Displays error messages when problems occur with connection to the database or OpenWeatherMap
+	 * 
+	 */
 	private void UpdateWeather() {
 
 
@@ -106,9 +121,8 @@ public class MainOpener extends JFrame {
 		ArrayList<Location> tempList = new ArrayList<>();
 		try {
 			tempList.addAll(DB.receiveFromDB());
-			//tempList = DB.receiveFromDB();
 		} catch (Exception e) {
-			//Om det inte går att skapa en connection med databasen skrivs ett felmedelande ut
+			// If unable to establish a connection with the database error message appears
 			setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
 			JOptionPane
 			.showMessageDialog(
@@ -128,6 +142,7 @@ public class MainOpener extends JFrame {
 					WC.getWeather(tempList.get(i));
 					tempList.get(i).setWeatherTime(System.currentTimeMillis());
 				} catch (IOException e) {
+					// If unable to establish a connection with OpenWeatherMap database error message appears
 					setConsoleText("<html><font color='red'>An error occurred while attempting to connect to OpenWeatherMap.</font></html>");
 					JOptionPane
 					.showMessageDialog(
@@ -140,7 +155,9 @@ public class MainOpener extends JFrame {
 			}
 			try {
 				DB.weatherUpdate(tempList);
-			} catch (Exception e) {setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
+			} catch (Exception e) {
+				// If unable to establish a connection with the database error message appears
+				setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
 			JOptionPane
 			.showMessageDialog(
 					null,
