@@ -19,7 +19,6 @@ public class FileOpener {
 	private BufferedReader in;
 	private File file;
 	private File[] listOfFiles;
-	private HashMap<String, SolarReceiver> locations;
 	private ArrayList<Location> places;
 	private WeatherCollector wC;
 	private ExcelIO eIO;

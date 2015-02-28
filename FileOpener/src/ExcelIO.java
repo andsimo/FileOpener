@@ -2,9 +2,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.JOptionPane;
@@ -16,25 +13,46 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.WorkbookUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ExcelIO.
+ */
 public class ExcelIO {
 
+	/** The excel sheet name. */
 	private String excelSheetName;
+	
+	/**Data of the Locations. */
 	private ArrayList<Location> data;
+	
+	/** The file. */
 	private File file;
+	
+	/** The workbook. */
 	private Workbook workbook;
 
+	/**
+	 * Instantiates a new excel IO.
+	 *
+	 * @param saveFilePath the save file path
+	 */
 	public ExcelIO(File saveFilePath) {
 		file = saveFilePath;
 	}
 
-	public ExcelIO() {
-	}
-
+	/**
+	 * Write to excel.
+	 *
+	 * @param locations, places where solar panels are installed
+	 */
 	public void writeToExcel(ArrayList<Location> locations) {
 		data = locations;
 		writeToExcel();
 	}
 
+	/**
+	 * This method prints all data to an Excel file
+	 */
 	private void writeToExcel() {
 		excelSheetName = "Locations";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -85,7 +103,7 @@ public class ExcelIO {
 
 				String Produktionsdatum = entry.getValue(); // getProductionDate()
 				Cell cell3 = row.createCell(3);
-				cell3.setCellValue(sdf.format(Produktionsdatum));
+				cell3.setCellValue(Produktionsdatum);
 
 				Cell cell4 = row.createCell(4);
 				cell4.setCellValue("N/A");
@@ -105,9 +123,6 @@ public class ExcelIO {
 
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
-			
-
-		
+				}		
 	}
 }
