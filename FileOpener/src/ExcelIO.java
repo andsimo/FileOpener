@@ -55,8 +55,6 @@ public class ExcelIO {
 	 */
 	private void writeToExcel() {
 		excelSheetName = "Locations";
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
 		workbook = new HSSFWorkbook();
 
 		// Skapar ett blad vid namn "excelSheetName"
