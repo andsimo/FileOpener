@@ -22,8 +22,8 @@ public class DBConnector {
 		ArrayList<Location> places = new ArrayList<Location>();
 		Location tempPlace;
 		Class.forName(driver).newInstance();
-		//Connection conn = DriverManager.getConnection(url+DbName, username, password);
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "");
+		Connection conn = DriverManager.getConnection(url+DbName, username, password);
+		//Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "");
 
 		Statement st = conn.createStatement();
 		ResultSet result = st.executeQuery("SELECT * FROM locations");
@@ -61,8 +61,8 @@ public class DBConnector {
 		String fileName = null;
 		int i = 0;
 		Class.forName(driver).newInstance();
-		//Connection conn = DriverManager.getConnection(url+DbName, username, password);
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "");
+		Connection conn = DriverManager.getConnection(url+DbName, username, password);
+		//Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "");
 
 		//for(Entry<String, SolarReceiver> entry : locations.entrySet())
 		for(Location location : places){
@@ -93,8 +93,8 @@ public class DBConnector {
 	public void weatherUpdate(ArrayList<Location> places) throws Exception{
 		int i = 0;
 		Class.forName(driver).newInstance();
-		//Connection conn = DriverManager.getConnection(url+DbName, username, password);
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "");
+		Connection conn = DriverManager.getConnection(url+DbName, username, password);
+		//Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "");
 
 		//for(Entry<String, SolarReceiver> entry : locations.entrySet())
 		for(Location location : places){
