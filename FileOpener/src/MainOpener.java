@@ -13,8 +13,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -57,12 +58,15 @@ public class MainOpener extends JFrame {
 
 	private JMenuBar menuBar;
 	private JMenu statusMenu, fileMenu;
-	private JMenuItem menuItemRunning, menuItemExit;
+	private JMenuItem menuItemRunning, menuItemExit, timeToNextUpdate;
 	private ImageIcon red, green;
 	private JPanel statusPanel;
 	private JLabel consoleLabel;
 
 	private volatile boolean running = false;
+	private Runnable timeRunnable;
+	private int time;
+	private ScheduledExecutorService executor;
 
 	public static void main(String[] args) {
 		new MainOpener();
@@ -555,6 +559,17 @@ public class MainOpener extends JFrame {
 
 	}
 
+	/**
+	 * Time counter.
+	 * Counts down every second and prints the new time on timeToNextUpdate
+	 */
+	private void TimeCounter(){
+		if(time == 0)
+			time = 3600;
+		int minutes = (time % 3600) / 60;
+		int seconds = time-- % 60;	
+		timeToNextUpdate.setText("Time to to next update: " + String.format("%02d:%02d", minutes, seconds));
+	}
 	public void initMenubarSettings() {
 		menuBar = new JMenuBar();
 		statusMenu = new JMenu("Status");
@@ -563,10 +578,19 @@ public class MainOpener extends JFrame {
 
 		red = new ImageIcon("red.gif");
 		green = new ImageIcon("green.gif");
-
+		
+		timeRunnable = new Runnable() {
+		    public void run() {
+		    	TimeCounter();
+		    }
+		};
+		
+		timeToNextUpdate = new JMenuItem();
+		timeToNextUpdate.setEnabled(false);
+		
 		menuItemRunning = new JMenuItem("Stopped", red);
 		menuItemRunning.addActionListener(new ActionListener() {
-			
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Thread t = new Thread(new Runnable(){
 					public void run(){
@@ -586,9 +610,13 @@ public class MainOpener extends JFrame {
 					menuItemRunning.setText("Running...");
 					menuItemRunning.setIcon(green);
 					running = true;
+					time = 3600;
+					statusMenu.add(timeToNextUpdate);
 
-
+					executor = Executors.newScheduledThreadPool(1);
+					executor.scheduleAtFixedRate(timeRunnable, 0, 1, TimeUnit.SECONDS);
 					t.start();
+					
 					//UpdateWeather();
 					// K�R KOD!
 				} else {
@@ -597,9 +625,9 @@ public class MainOpener extends JFrame {
 					running = false;
 					t.interrupt();
 					setConsoleText("Waiting for input");
+					executor.shutdown();
+					statusMenu.remove(timeToNextUpdate);
 				}
-
-
 			}
 
 		});
