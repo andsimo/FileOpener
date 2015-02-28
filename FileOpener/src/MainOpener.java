@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimerTask;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -565,16 +566,12 @@ public class MainOpener extends JFrame {
 
 		menuItemRunning = new JMenuItem("Stopped", red);
 		menuItemRunning.addActionListener(new ActionListener() {
-
-
-			@SuppressWarnings("deprecation")
-			@Override
+			
 			public void actionPerformed(ActionEvent e) {
 				Thread t = new Thread(new Runnable(){
 					public void run(){
 						try {
 							while(running){
-								System.out.println(new Date());
 								UpdateWeather();
 								Thread.sleep(1000*3600);
 
