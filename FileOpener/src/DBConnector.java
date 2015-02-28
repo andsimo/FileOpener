@@ -23,7 +23,7 @@ public class DBConnector {
 		Location tempPlace;
 		Class.forName(driver).newInstance();
 		//Connection conn = DriverManager.getConnection(url+DbName, username, password);
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "");
 
 		Statement st = conn.createStatement();
 		ResultSet result = st.executeQuery("SELECT * FROM locations");
@@ -62,7 +62,7 @@ public class DBConnector {
 		int i = 0;
 		Class.forName(driver).newInstance();
 		//Connection conn = DriverManager.getConnection(url+DbName, username, password);
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "");
 
 		//for(Entry<String, SolarReceiver> entry : locations.entrySet())
 		for(Location location : places){
@@ -88,7 +88,7 @@ public class DBConnector {
 		int i = 0;
 		Class.forName(driver).newInstance();
 		//Connection conn = DriverManager.getConnection(url+DbName, username, password);
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "Mjalk23");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "");
 
 		//for(Entry<String, SolarReceiver> entry : locations.entrySet())
 		for(Location location : places){
@@ -103,7 +103,7 @@ public class DBConnector {
 
 
 			Statement st = conn.createStatement();
-			// int val = st.executeUpdate("REPLACE INTO WeatherData VALUES('" + date + "', " + latitude + ", " + longitude + " , " + cloud + " , " + sunrise + " , " + sunset + ", " + sensors + ")");
+			//int val = st.executeUpdate("REPLACE INTO WeatherData VALUES('" + date + "', " + latitude + ", " + longitude + " , " + cloud + " , " + sunrise + " , " + sunset + ", " + sensors + ")");
 			int val = st.executeUpdate("INSERT INTO WeatherData VALUES('" + date + "', " + latitude + ", " + longitude + " , " + cloud + " , " + sunrise + " , " + sunset + ", " + sensors + ")"); //INSERT IGNORE VS REPLACE...
 			if(val == 1)
 				i++;

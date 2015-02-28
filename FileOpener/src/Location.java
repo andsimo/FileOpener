@@ -1,7 +1,10 @@
-import java.util.Date;
 import java.util.HashMap;
 
-
+/**
+ * 
+ * @author Emil
+ *
+ */
 public class Location {
 
 	private double latitude, longitude;
