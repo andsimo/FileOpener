@@ -74,6 +74,8 @@ public class MainOpener extends JFrame {
 
 	}
 
+
+
 	public MainOpener() {
 		filePath = null;
 
@@ -86,8 +88,7 @@ public class MainOpener extends JFrame {
 		initGUI();
 		//UpdateWeather();
 	}
-
-
+	
 	/**
 	 * Sets the consoleLabel text.
 	 * is a separate thread to write to consoleLabel , while other processes are running
@@ -160,13 +161,13 @@ public class MainOpener extends JFrame {
 			} catch (Exception e) {
 				// If unable to establish a connection with the database error message appears
 				setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
-			JOptionPane
-			.showMessageDialog(
-					null,
-					"An error occurred while attempting to connect to the database.",
-					"Inane error",
-					JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+				JOptionPane
+				.showMessageDialog(
+						null,
+						"An error occurred while attempting to connect to the database.",
+						"Inane error",
+						JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
 			}
 
 			setConsoleText("Ready!");
@@ -396,16 +397,16 @@ public class MainOpener extends JFrame {
 
 		red = new ImageIcon("red.gif");
 		green = new ImageIcon("green.gif");
-		
+
 		timeRunnable = new Runnable() {
-		    public void run() {
-		    	TimeCounter();
-		    }
+			public void run() {
+				TimeCounter();
+			}
 		};
-		
+
 		timeToNextUpdate = new JMenuItem();
 		timeToNextUpdate.setEnabled(false);
-		
+
 		menuItemRunning = new JMenuItem("Stopped", red);
 		menuItemRunning.addActionListener(new ActionListener() {
 			@Override
@@ -434,7 +435,7 @@ public class MainOpener extends JFrame {
 					executor = Executors.newScheduledThreadPool(1);
 					executor.scheduleAtFixedRate(timeRunnable, 0, 1, TimeUnit.SECONDS);
 					t.start();
-					
+
 					//UpdateWeather();
 					// K�R KOD!
 				} else {
