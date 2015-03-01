@@ -15,6 +15,9 @@ import org.json.JSONObject;
 // TODO: Auto-generated Javadoc
 /**
  * The Class GetLocationInfo.
+ * Reverse Geocoding
+ * För att hämta namn på stad och land för en specifk lat/long
+ * 
  */
 @SuppressWarnings("deprecation")
 public class GetLocationInfo {
