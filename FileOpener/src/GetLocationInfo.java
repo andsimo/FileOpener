@@ -19,6 +19,90 @@ import org.json.JSONObject;
 @SuppressWarnings("deprecation")
 public class GetLocationInfo {
 	
+	/** The neighborhood. */
+	private String neighborhood;
+	
+	/** The countr. */
+	private String countr;
+	
+	/** The sublocality. */
+	private String sublocality;
+	
+	/**
+	 * Gets the neighborhood.
+	 *
+	 * @return the neighborhood
+	 */
+	public String getNeighborhood() {
+		return neighborhood;
+	}
+
+	/**
+	 * Gets the countr.
+	 *
+	 * @return the countr
+	 */
+	public String getCountr() {
+		return countr;
+	}
+
+	/**
+	 * Gets the sublocality.
+	 *
+	 * @return the sublocality
+	 */
+	public String getSublocality() {
+		return sublocality;
+	}
+
+	/**
+	 * Gets the postalcode.
+	 *
+	 * @return the postalcode
+	 */
+	public String getPostalcode() {
+		return postalcode;
+	}
+
+	/**
+	 * Gets the admin area.
+	 *
+	 * @return the admin area
+	 */
+	public String getAdminArea() {
+		return adminArea;
+	}
+
+	/**
+	 * Gets the subadmin area.
+	 *
+	 * @return the subadmin area
+	 */
+	public String getSubadminArea() {
+		return subadminArea;
+	}
+
+	/**
+	 * Gets the locality.
+	 *
+	 * @return the locality
+	 */
+	public String getLocality() {
+		return locality;
+	}
+
+	/** The postalcode. */
+	private String postalcode;
+	
+	/** The admin area. */
+	private String adminArea;
+	
+	/** The subadmin area. */
+	private String subadminArea;
+	
+	/** The locality. */
+	private String locality;
+	
 	/**
 	 * Instantiates a new gets the location info.
 	 *
@@ -31,13 +115,7 @@ public class GetLocationInfo {
 		JSONObject location;
 		
 		
-		String neighborhood;
-		String countr;
-		String sublocality;
-		String postalcode;
-		String adminArea;
-		String subadminArea;
-		String locality;
+		
 		try {
 			//Get JSON Array called "results" and then get the 0th complete object as JSON        
 			location = ret.getJSONArray("results").getJSONObject(0);
