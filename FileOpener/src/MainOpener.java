@@ -1,7 +1,5 @@
 import java.awt.AWTException;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
@@ -18,11 +16,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -41,10 +37,11 @@ import net.miginfocom.swing.MigLayout;
 
 public class MainOpener extends JFrame {
 
-	private JButton openFiles, browse, saveToExcel;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1219242683331411437L;
 	private File filePath, saveFilePath;
-	private JLabel filePathLabel, staticPathLabel;
-	private JCheckBox saveToExcelBox, saveToDBBox;
 	private JTextField browseField;
 
 	private final JFrame thisFrame = this;
