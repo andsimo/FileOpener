@@ -12,15 +12,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GetLocationInfo.
+ */
 @SuppressWarnings("deprecation")
 public class GetLocationInfo {
-	private String formatted_address;
-	private String counrty;
+	
+	/**
+	 * Instantiates a new gets the location info.
+	 *
+	 * @param lat the lat
+	 * @param lng the lng
+	 */
 	public GetLocationInfo(double lat, double lng){
 		// get lat and lng value
 		JSONObject ret = getLocationInfo(lat,lng); 
 		JSONObject location;
-		String location_string;
 		
 		
 		String neighborhood;
@@ -33,12 +41,6 @@ public class GetLocationInfo {
 		try {
 			//Get JSON Array called "results" and then get the 0th complete object as JSON        
 			location = ret.getJSONArray("results").getJSONObject(0);
-
-
-
-
-
-			//JSONObject temp = location.getJSONArray("address_components").getJSONObject(6);
 
 			JSONArray addrComp = location.getJSONArray("address_components");
 
@@ -86,18 +88,18 @@ public class GetLocationInfo {
                 	System.out.println("countr: " +countr);
                 }
 			}
-			// Get the value of the attribute whose name is "formatted_string"
-			location_string = location.getString("formatted_address");
-			//System.out.println(location_string.toString());
-			formatted_address = location_string.toString();
 		} catch (JSONException e1) {
 
 		}
 	}
 
-	public String getInfo(){
-		return formatted_address;
-	}
+	/**
+	 * Gets the location info.
+	 *
+	 * @param lat the lat
+	 * @param lng the lng
+	 * @return the location info
+	 */
 	private JSONObject getLocationInfo( double lat, double lng) {
 		HttpGet httpGet = new HttpGet("http://maps.google.com/maps/api/geocode/json?latlng="+lat+","+lng+"&sensor=false");
 		HttpClient client = new DefaultHttpClient();
