@@ -2,12 +2,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,7 +17,6 @@ public class FileOpener {
 	private File file;
 	private File[] listOfFiles;
 	private ArrayList<Location> places;
-	private WeatherCollector wC;
 	private ExcelIO eIO;
 	private DBConnector dataBase;
 
@@ -29,7 +25,7 @@ public class FileOpener {
 		places = new ArrayList<Location>();
 		file = filePath;
 		listOfFiles = file.listFiles();
-		wC = new WeatherCollector();
+		new WeatherCollector();
 		eIO = new ExcelIO(saveFilePath);
 		OpenFiles();
 		dataBase = new DBConnector();
@@ -126,9 +122,6 @@ public class FileOpener {
 	private String getDate(String fileName) {
 		Pattern datePattern = Pattern.compile("(\\d{4}) (\\d{2}) (\\d{2})");
 		Matcher dateMatcher = datePattern.matcher(fileName);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
-
 		if (dateMatcher.find()){
 			String temp = dateMatcher.group(1)+dateMatcher.group(2)+dateMatcher.group(3);
 			return temp;
