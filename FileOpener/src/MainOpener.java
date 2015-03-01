@@ -85,7 +85,7 @@ public class MainOpener extends JFrame {
 		 * db.insertIntoDB("fil1", -12.1212, 123.123032);
 		 */
 
-		//createGUI();
+
 		initGUI();
 		//UpdateWeather();
 	}
@@ -119,7 +119,7 @@ public class MainOpener extends JFrame {
 
 
 		setConsoleText("Updating weather, please wait!");
-		this.setEnabled(false);
+		//this.setEnabled(false);							//---varför?
 
 		WeatherCollector WC = new WeatherCollector();
 		DBConnector DB = new DBConnector();
@@ -182,7 +182,7 @@ public class MainOpener extends JFrame {
 					"Inane error",
 					JOptionPane.ERROR_MESSAGE);
 		}
-		this.setEnabled(true);
+		//this.setEnabled(true);
 	}
 
 	/*
