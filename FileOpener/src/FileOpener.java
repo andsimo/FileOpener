@@ -98,8 +98,15 @@ public class FileOpener {
 					else{
 						//---------locations.put(file.getName(), solarReceiver);
 						places.add(location);
-						GetLocationInfo GLI = new GetLocationInfo(location.getLat(),location.getLong());
-						//System.out.println(GLI.getInfo());
+						/**
+						 * Reverse Geocoding
+						 * 
+						 * GetLocationInfo GLI = new GetLocationInfo(location.getLat(),location.getLong());
+						 * 
+						 * GLI.getCountr() för att hämta Land
+						 * 
+						 * GLI.getLocality() för att hämta stadsnamn
+						 */
 					}
 
 				} catch (IOException e) {									//Skitdï¿½lig felhantering... it's something!
