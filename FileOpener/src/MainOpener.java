@@ -87,6 +87,8 @@ public class MainOpener extends JFrame {
 
 		initGUI();
 		//UpdateWeather();
+		
+		GetLocationInfo GLI = new GetLocationInfo(37.42291810,-122.08542120);
 	}
 	
 	/**

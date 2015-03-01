@@ -99,7 +99,7 @@ public class FileOpener {
 						//---------locations.put(file.getName(), solarReceiver);
 						places.add(location);
 						GetLocationInfo GLI = new GetLocationInfo(location.getLat(),location.getLong());
-						System.out.println(GLI.getInfo());
+						//System.out.println(GLI.getInfo());
 					}
 
 				} catch (IOException e) {									//Skitd�lig felhantering... it's something!
