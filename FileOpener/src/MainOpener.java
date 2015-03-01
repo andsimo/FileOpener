@@ -115,7 +115,7 @@ public class MainOpener extends JFrame {
 	 * Displays error messages when problems occur with connection to the database or OpenWeatherMap
 	 * 
 	 */
-	private void UpdateWeather() {
+	private void updateWeather() {
 
 
 		setConsoleText("Updating weather, please wait!");
@@ -596,7 +596,7 @@ public class MainOpener extends JFrame {
 					public void run(){
 						try {
 							while(running){
-								UpdateWeather();
+								updateWeather();
 								Thread.sleep(1000*3600);
 
 							}
