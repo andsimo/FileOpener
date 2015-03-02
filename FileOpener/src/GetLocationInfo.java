@@ -16,7 +16,7 @@ import org.json.JSONObject;
 /**
  * The Class GetLocationInfo.
  * Reverse Geocoding
- * För att hämta namn på stad och land för en specifk lat/long
+ * Fï¿½r att hï¿½mta namn pï¿½ stad och land fï¿½r en specifk lat/long
  * 
  */
 @SuppressWarnings("deprecation")
@@ -105,6 +105,8 @@ public class GetLocationInfo {
 	
 	/** The locality. */
 	private String locality;
+
+	private HttpClient client;
 	
 	/**
 	 * Instantiates a new gets the location info.
@@ -183,7 +185,7 @@ public class GetLocationInfo {
 	 */
 	private JSONObject getLocationInfo( double lat, double lng) {
 		HttpGet httpGet = new HttpGet("http://maps.google.com/maps/api/geocode/json?latlng="+lat+","+lng+"&sensor=false");
-		HttpClient client = new DefaultHttpClient();
+		client = new DefaultHttpClient();
 		HttpResponse response;
 		StringBuilder stringBuilder = new StringBuilder();
 
