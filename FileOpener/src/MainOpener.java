@@ -78,6 +78,8 @@ public class MainOpener extends JFrame {
 
 	public MainOpener() {
 		filePath = null;
+		paransImage = Toolkit.getDefaultToolkit().getImage(
+				"./paransTrayIcon.gif");
 
 		/*
 		 * DBConnector db = new DBConnector(); db.receiveFromDB();
@@ -197,6 +199,8 @@ public class MainOpener extends JFrame {
 			e.printStackTrace();
 		}
 
+		this.setIconImage(paransImage);
+		this.setTitle("FileOpener");
 		this.setResizable(false);
 		this.setBounds(100, 100, 423, 265);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -342,8 +346,7 @@ public class MainOpener extends JFrame {
 		}
 
 		sysTray = SystemTray.getSystemTray();
-		paransImage = Toolkit.getDefaultToolkit().getImage(
-				"./paransTrayIcon.gif");
+		
 		trayMenu = new PopupMenu();
 		menuItem1 = new MenuItem("Open");
 		menuItem2 = new MenuItem("Exit");
