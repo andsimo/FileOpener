@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 public class DBConnector {
 
 	private String url = "jdbc:mysql://46.239.117.17:3306/";	//Just nu endast lokalt. min IP 46.239.117.17    localhost
-	private String DbName = "GVS";						//Schemats namn satt av Simon
+	private String dbName = "GVS";						//Schemats namn satt av Simon
 	private String driver ="com.mysql.jdbc.Driver";		//V�ljer vilken typ av db vi kopplar upp oss mot. Kr�ver buildpath.
 	private String username = "fileopener";				//Anv�ndarnamn satt av Simon.
 	private String password = "parans";					//L�senord satt av Simon.
@@ -18,13 +18,20 @@ public class DBConnector {
 	public DBConnector(){
 
 	}
+	
+	public DBConnector(String ip, String port, String dbName, String username, String password){
+		this.url = "jdbc:mysql://" + ip + ":" + port + "/";
+		this.dbName = dbName;
+		this.username = username;
+		this.password = password;
+	}
 
 	public ArrayList<Location> receiveFromDB() throws Exception{
 
 		ArrayList<Location> places = new ArrayList<Location>();
 		Location tempPlace;
 		Class.forName(driver).newInstance();
-		Connection conn = DriverManager.getConnection(url+DbName, username, password);
+		Connection conn = DriverManager.getConnection(url+dbName, username, password);
 		//Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "");
 
 		Statement st = conn.createStatement();
@@ -63,7 +70,7 @@ public class DBConnector {
 		String fileName = null;
 		int i = 0;
 		Class.forName(driver).newInstance();
-		Connection conn = DriverManager.getConnection(url+DbName, username, password);
+		Connection conn = DriverManager.getConnection(url+dbName, username, password);
 		//Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "");
 
 		//for(Entry<String, SolarReceiver> entry : locations.entrySet())
@@ -95,7 +102,7 @@ public class DBConnector {
 	public void weatherUpdate(ArrayList<Location> places) throws Exception{
 		int i = 0;
 		Class.forName(driver).newInstance();
-		Connection conn = DriverManager.getConnection(url+DbName, username, password);
+		Connection conn = DriverManager.getConnection(url+dbName, username, password);
 		//Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test","root", "");
 
 		//for(Entry<String, SolarReceiver> entry : locations.entrySet())
