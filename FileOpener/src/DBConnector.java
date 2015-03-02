@@ -85,11 +85,14 @@ public class DBConnector {
 				int val = st.executeUpdate("REPLACE INTO locations VALUES('" + fileName + "', " + latitude + ", " + longitude + ", " + date + ")"); //INSERT IGNORE VS REPLACE...
 				if(val == 1)
 					i++;
+				
+
 
 			}
 		}
 		System.out.println("Success, " + i + " files were added to GVS table Locations");
 		conn.close();
+		MainOpener.setConsoleText("Success, " + i + " files were added to Database");
 	}
 
 

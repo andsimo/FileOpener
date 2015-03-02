@@ -58,7 +58,7 @@ public class MainOpener extends JFrame {
 	private JMenuItem menuItemRunning, menuItemExit, timeToNextUpdate;
 	private ImageIcon red, green;
 	private JPanel statusPanel;
-	private JLabel consoleLabel;
+	private static JLabel consoleLabel;
 
 	private volatile boolean running = false;
 	private Runnable timeRunnable;
@@ -96,12 +96,14 @@ public class MainOpener extends JFrame {
 	 * is a separate thread to write to consoleLabel , while other processes are running
 	 * @param text 
 	 */
-	private void setConsoleText(final String text){
+	public static void setConsoleText(final String text){
 		SwingUtilities.invokeLater(new Runnable(){
 			public void run(){
 				consoleLabel.setText(text);
+				
 			}
 		});
+
 	}
 
 
