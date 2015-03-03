@@ -142,8 +142,8 @@ public class Location {
 	/**
 	 * Adds the receiver.
 	 *
-	 * @param file (fileName)
-	 * @param the production date
+	 * @param file the file
+	 * @param productionDate the production date
 	 */
 	public void addReceiver(String file, String productionDate){
 		files.put(file, productionDate);
@@ -186,11 +186,11 @@ public class Location {
 	public HashMap<String, String> getFiles(){
 		return files;
 	}
-
+	
 	/**
-	 * Sets the time for the weather.
+	 * Sets the weather time.
 	 *
-	 * @param the new weather time
+	 * @param time the new weather time
 	 */
 	public void setWeatherTime(long time){
 				currentWeather.setCurrentTimeDate(time);

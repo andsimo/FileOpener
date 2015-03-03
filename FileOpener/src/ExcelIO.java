@@ -15,6 +15,7 @@ import org.apache.poi.ss.util.WorkbookUtil;
 // TODO: Auto-generated Javadoc
 /**
  * The Class ExcelIO.
+ * Takes care of writing to excel
  */
 public class ExcelIO {
 
