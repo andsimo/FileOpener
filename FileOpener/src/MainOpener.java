@@ -131,12 +131,15 @@ public class MainOpener extends JFrame {
 		} catch (Exception e) {
 			// If unable to establish a connection with the database error message appears
 			setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
+			
+			//Tagit bort JOptionpane för felmeddelanden för databasen
+			/*
 			JOptionPane
 			.showMessageDialog(
 					null,
 					"An error occurred while attempting to connect to the database.",
 					"Inane error",
-					JOptionPane.ERROR_MESSAGE);
+					JOptionPane.ERROR_MESSAGE); */
 			e.printStackTrace();
 			this.setEnabled(true);
 			return;
@@ -151,12 +154,15 @@ public class MainOpener extends JFrame {
 				} catch (IOException e) {
 					// If unable to establish a connection with OpenWeatherMap database error message appears
 					setConsoleText("<html><font color='red'>An error occurred while attempting to connect to OpenWeatherMap.</font></html>");
+					
+					//Tagit bort JOptionpane för felmeddelanden för OpenWeatherMap för att programmet inte ska låsa sig
+					/*
 					JOptionPane
 					.showMessageDialog(
 							null,
 							"An error occurred while attempting to connect to OpenWeatherMap.",
 							"Inane error",
-							JOptionPane.ERROR_MESSAGE);
+							JOptionPane.ERROR_MESSAGE); */
 					e.printStackTrace();
 				}
 			}
@@ -165,12 +171,15 @@ public class MainOpener extends JFrame {
 			} catch (Exception e) {
 				// If unable to establish a connection with the database error message appears
 				setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
+				
+				//Tagit bort JOptionpane för felmeddelanden för databasen för att programmet inte ska låsa sig
+				/*
 				JOptionPane
 				.showMessageDialog(
 						null,
 						"An error occurred while attempting to connect to the database.",
 						"Inane error",
-						JOptionPane.ERROR_MESSAGE);
+						JOptionPane.ERROR_MESSAGE); */
 				e.printStackTrace();
 			}
 
@@ -267,12 +276,15 @@ public class MainOpener extends JFrame {
 							FO.sendToDB();
 						} catch (Exception e) {
 							setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
+							
+							//Tagit bort JOptionpane för felmeddelanden för databasen för att programmet inte ska låsa sig
+							/*
 							JOptionPane
 							.showMessageDialog(
 									null,
 									"An error occurred while attempting to connect to the database.",
 									"Inane error",
-									JOptionPane.ERROR_MESSAGE);
+									JOptionPane.ERROR_MESSAGE);*/
 							e.printStackTrace();
 						}
 					} 
@@ -283,12 +295,15 @@ public class MainOpener extends JFrame {
 							FO.sendToDB();
 						} catch (Exception e) {
 							setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
+							
+							//Tagit bort JOptionpane för felmeddelanden för databasen för att programmet inte ska låsa sig
+							/*
 							JOptionPane
 							.showMessageDialog(
 									null,
 									"An error occurred while attempting to connect to the database.",
 									"Inane error",
-									JOptionPane.ERROR_MESSAGE);
+									JOptionPane.ERROR_MESSAGE);*/
 							e.printStackTrace();
 						}
 
