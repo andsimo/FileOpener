@@ -132,7 +132,7 @@ public class MainOpener extends JFrame {
 			// If unable to establish a connection with the database error message appears
 			setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
 			
-			//Tagit bort JOptionpane för felmeddelanden för databasen
+			//Tagit bort JOptionpane felmeddelanden för databasen, pga att programmet inte ska låsa sig
 			/*
 			JOptionPane
 			.showMessageDialog(
@@ -155,7 +155,7 @@ public class MainOpener extends JFrame {
 					// If unable to establish a connection with OpenWeatherMap database error message appears
 					setConsoleText("<html><font color='red'>An error occurred while attempting to connect to OpenWeatherMap.</font></html>");
 					
-					//Tagit bort JOptionpane för felmeddelanden för OpenWeatherMap för att programmet inte ska låsa sig
+					//Tagit bort JOptionpane felmeddelanden för OpenWeatherMap pga att programmet inte ska låsa sig
 					/*
 					JOptionPane
 					.showMessageDialog(
@@ -172,7 +172,7 @@ public class MainOpener extends JFrame {
 				// If unable to establish a connection with the database error message appears
 				setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
 				
-				//Tagit bort JOptionpane för felmeddelanden för databasen för att programmet inte ska låsa sig
+				//Tagit bort JOptionpane felmeddelanden för databasen pga att programmet inte ska låsa sig
 				/*
 				JOptionPane
 				.showMessageDialog(
@@ -277,7 +277,7 @@ public class MainOpener extends JFrame {
 						} catch (Exception e) {
 							setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
 							
-							//Tagit bort JOptionpane för felmeddelanden för databasen för att programmet inte ska låsa sig
+							//Tagit bort JOptionpane felmeddelanden för databasen pga att programmet inte ska låsa sig
 							/*
 							JOptionPane
 							.showMessageDialog(
@@ -296,7 +296,7 @@ public class MainOpener extends JFrame {
 						} catch (Exception e) {
 							setConsoleText("<html><font color='red'>An error occurred while attempting to connect to the database.</font></html>");
 							
-							//Tagit bort JOptionpane för felmeddelanden för databasen för att programmet inte ska låsa sig
+							//Tagit bort JOptionpane felmeddelanden för databasen pga att programmet inte ska låsa sig
 							/*
 							JOptionPane
 							.showMessageDialog(
