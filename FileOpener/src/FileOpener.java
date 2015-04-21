@@ -55,13 +55,14 @@ public class FileOpener {
 					}
 					
 					while(line != null){
+						
 
 						if(line.contains("Longitude") ){
 
 							sb.append(line);
-							sb.append(System.lineSeparator());
+							sb.append(System.lineSeparator());			// Latitude: 123123.12321 [0] = Latitude: [1] 123123123:21321
 
-							String[] sla = sb.toString().split(":");		//Filtrerar bort "Longitude set as:" och lagrar som double i SolarReciver-objektet
+							String[] sla = sb.toString().split(":");		//Filtrerar bort "Longitude set as:" och lagrar som double i SolarReciver-objektet  
 							//------- solarReceiver.setLong(Double.parseDouble(sla[1]));
 							location.setLong(Double.parseDouble(sla[1]));
 
@@ -138,7 +139,6 @@ public class FileOpener {
 
 
 	/*
-
 	public void getWeathers(){
 
 

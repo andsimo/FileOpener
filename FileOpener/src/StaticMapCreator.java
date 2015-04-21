@@ -16,6 +16,11 @@ import javax.swing.JLabel;
  */
 public class StaticMapCreator {
 
+	public static void main(String[] args) {
+		StaticMapCreator smc = new StaticMapCreator();
+		smc.createMap(0, 0);
+	}
+	
 	public StaticMapCreator(){
 	
 	}
@@ -25,7 +30,7 @@ public class StaticMapCreator {
 
         try {
         	//Ändra zoom=x (1 - 12) för zooma närmare. 
-        	String imageUrl = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=12&size=612x612&scale=2&maptype=roadmap";            
+        	String imageUrl = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=4&size=612x612&scale=2&maptype=roadmap";            
         	String destinationFile = "image.jpg";
             URL url = new URL(imageUrl);
             InputStream is = url.openStream();
